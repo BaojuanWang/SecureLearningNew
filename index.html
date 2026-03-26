@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureLearn</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+:root{
+  --bg:#f4f3ef;--surface:#fff;--surface2:#efede7;--border:#dddbd3;
+  --text:#1a1916;--muted:#7a7870;--accent:#2d5be3;--accent-l:#eef1fd;
+  --c-rec:#0369a1;--c-rec-bg:#e0f2fe;
+  --c-cau:#b45309;--c-cau-bg:#fef3e2;
+  --c-beh:#5b21b6;--c-beh-bg:#f3f0fb;
+  --c-dan:#be123c;--c-dan-bg:#fdf0ef;
+  --c-pre:#166534;--c-pre-bg:#e6f4ed;
+  --c-gen:#555;--c-gen-bg:#f0f0ee;
+  --nudge-bg:#fffbeb;--nudge-bd:#f59e0b;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;font-size:14px;line-height:1.6}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:46px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:-.3px}
+.topic-pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-size:11px;color:var(--muted);font-family:var(--mono);margin-left:10px}
+.qctr{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.layout{display:flex;flex:1;min-height:0}
+
+/* SIDEBAR */
+.sidebar{width:186px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:14px 12px;display:flex;flex-direction:column;overflow-y:auto}
+.sl{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.sdiv{border:none;border-top:1px solid var(--border);margin:10px 0}
+.smeta{font-size:11px;color:var(--muted);font-family:var(--mono);line-height:2}
+.timer-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:2px}
+.timer{font-size:15px;font-family:var(--mono);color:var(--accent);font-weight:600;margin-bottom:4px}
+.dim-item{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;margin-bottom:2px}
+.dim-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .25s,box-shadow .25s}
+.dim-label{font-size:12.5px;color:var(--muted);transition:color .25s}
+.dim-item.lit .dim-label{color:var(--text);font-weight:500}
+.dim-item[data-d="Recognition"].lit .dim-dot{background:var(--c-rec);box-shadow:0 0 0 2px var(--c-rec-bg)}
+.dim-item[data-d="Cause"].lit       .dim-dot{background:var(--c-cau);box-shadow:0 0 0 2px var(--c-cau-bg)}
+.dim-item[data-d="Behavior"].lit    .dim-dot{background:var(--c-beh);box-shadow:0 0 0 2px var(--c-beh-bg)}
+.dim-item[data-d="Danger"].lit      .dim-dot{background:var(--c-dan);box-shadow:0 0 0 2px var(--c-dan-bg)}
+.dim-item[data-d="Prevention"].lit  .dim-dot{background:var(--c-pre);box-shadow:0 0 0 2px var(--c-pre-bg)}
+
+/* history - no tags, click to copy */
+.hist-item{font-size:11.5px;color:var(--muted);padding:5px 7px;border-radius:5px;cursor:pointer;line-height:1.4;border-left:2px solid var(--border);margin-bottom:3px;transition:background .12s;position:relative}
+.hist-item:hover{background:var(--surface2);color:var(--text)}
+.hist-item:hover::after{content:'click to copy';position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10px;font-family:var(--mono);color:var(--accent);background:var(--accent-l);padding:1px 5px;border-radius:3px}
+
+/* CHAT */
+.chat-wrapper{flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* CODE PANEL - collapsible strip at top of chat */
+.code-strip{background:#1a1a1a;border-bottom:1px solid #2e2e2e;flex-shrink:0;overflow:hidden}
+.code-strip-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;cursor:pointer;user-select:none}
+.code-strip-hdr:hover{background:#222}
+.code-strip-title{font-size:11px;font-family:var(--mono);color:#888;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:8px}
+.code-strip-badge{font-size:10px;background:#2d5be3;color:#fff;border-radius:3px;padding:1px 6px;font-family:var(--mono)}
+.code-strip-actions{display:flex;align-items:center;gap:8px}
+.code-strip-btn{font-size:11px;font-family:var(--mono);background:#2e2e2e;border:1px solid #3e3e3e;color:#aaa;border-radius:4px;padding:2px 8px;cursor:pointer;transition:all .15s}
+.code-strip-btn:hover{background:#3a3a3a;color:#fff}
+.code-strip-arrow{font-size:9px;color:#666;transition:transform .2s}
+.code-strip-arrow.open{transform:rotate(90deg)}
+.code-strip-body{display:none;padding:0 14px 12px;overflow-y:auto;height:180px}
+.code-strip-body.open{display:block}
+.code-resize-handle{display:none;height:6px;background:#1a1a1a;cursor:ns-resize;border-top:1px solid #333;position:relative;flex-shrink:0}
+.code-resize-handle::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:32px;height:2px;border-radius:2px;background:#444}
+.code-resize-handle:hover::after,.code-resize-handle.dragging::after{background:#666}
+.code-resize-handle.visible{display:block}
+pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4;white-space:pre-wrap;word-break:break-all}
+.code-empty-msg{font-size:12px;color:#555;padding:10px 0;font-family:var(--mono)}
+.code-paste-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center}
+.code-paste-modal-overlay.open{display:flex}
+.code-paste-modal{background:var(--surface);border-radius:12px;padding:20px;width:540px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.code-paste-modal h3{font-size:15px;margin-bottom:4px}
+.code-paste-modal p{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.code-paste-modal textarea{width:100%;height:200px;font-family:var(--mono);font-size:12px;border:1.5px solid var(--border);border-radius:8px;padding:10px;background:#1a1a1a;color:#cdd6f4;resize:none;outline:none}
+.code-paste-modal textarea:focus{border-color:var(--accent)}
+.code-paste-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.btn-cancel{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--sans)}
+.btn-ok{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--sans)}
+.btn-ok:hover{background:#1e4bc4}
+
+/* code return nudge */
+.code-return-nudge{background:#1a1a1a;border:1px solid #2d5be3;border-radius:8px;padding:9px 13px;font-size:12.5px;display:flex;align-items:center;gap:9px;color:#89b4fa}
+.crn-icon{font-size:14px;flex-shrink:0}
+.crn-btn{background:#2d5be3;color:#fff;border:none;border-radius:5px;padding:3px 10px;font-size:11.5px;font-family:var(--sans);cursor:pointer;white-space:nowrap}
+.crn-btn:hover{background:#1e4bc4}
+.crn-dis{color:#555;font-size:15px;cursor:pointer;line-height:1;flex-shrink:0;margin-left:auto}
+
+.chat-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+
+/* nudge */
+.nudge{background:var(--nudge-bg);border:1px solid var(--nudge-bd);border-radius:8px;padding:11px 13px;font-size:13px;display:flex;align-items:flex-start;gap:9px;animation:fin .25s ease}
+.nudge-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.nudge-body{flex:1}
+.nudge-body strong{font-weight:600}
+.nudge-acts{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.nbtn{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;font-family:var(--sans);cursor:pointer}
+.nbtn:hover{background:var(--surface2)}
+.nbtn.p{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nbtn.p:hover{background:#1e4bc4}
+.ndis{color:var(--muted);font-size:17px;cursor:pointer;line-height:1;flex-shrink:0}
+
+.mu{display:flex;justify-content:flex-end}
+.mu-bubble{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:9px 14px;max-width:68%;font-size:13.5px;line-height:1.55}
+.ma{display:flex;flex-direction:column;gap:5px;max-width:92%}
+
+/* BLOCK CARD */
+.block-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.block-hdr{display:flex;align-items:center;gap:8px;padding:9px 13px;cursor:pointer;user-select:none;transition:background .12s}
+.block-hdr:hover{background:var(--surface2)}
+.block-hdr-left{display:flex;align-items:center;gap:8px;flex:1}
+.block-hint{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.block-arrow{font-size:9px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.block-arrow.open{transform:rotate(90deg)}
+.block-body{display:none;border-top:1px solid var(--border)}
+.block-body.open{display:block}
+.block-copy{font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;font-family:var(--mono);transition:background .15s;flex-shrink:0}
+.block-copy:hover{background:var(--surface2);color:var(--text)}
+
+/* SUB-BLOCK */
+.sub-block{border-bottom:1px solid var(--border)}
+.sub-block:last-child{border-bottom:none}
+.sub-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;cursor:pointer;user-select:none;transition:background .12s;gap:8px}
+.sub-hdr:hover{background:var(--surface2)}
+.sub-hdr-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.sub-title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.1px}
+.sub-hint{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap;flex-shrink:0}
+.sub-arrow{font-size:9px;transition:transform .2s;color:var(--muted);flex-shrink:0}
+.sub-arrow.open{transform:rotate(90deg)}
+.sub-body{display:none;padding:8px 14px 12px;font-size:13.5px;line-height:1.68;border-top:1px dashed var(--border)}
+.sub-body.open{display:block}
+.sub-body code{font-family:var(--mono);font-size:12px;background:var(--surface2);border-radius:3px;padding:1px 4px}
+.sub-body ul{margin:5px 0 0 17px}
+.sub-body li{margin-bottom:3px}
+.sub-body p{margin-bottom:6px}
+.sub-body p:last-child{margin-bottom:0}
+
+.stag{display:inline-block;font-size:10px;font-family:var(--mono);font-weight:600;text-transform:uppercase;letter-spacing:.06em;border-radius:4px;padding:2px 7px}
+.t-Recognition{background:var(--c-rec-bg);color:var(--c-rec)}
+.t-Cause{background:var(--c-cau-bg);color:var(--c-cau)}
+.t-Behavior{background:var(--c-beh-bg);color:var(--c-beh)}
+.t-Danger{background:var(--c-dan-bg);color:var(--c-dan)}
+.t-Prevention{background:var(--c-pre-bg);color:var(--c-pre)}
+.t-General{background:var(--c-gen-bg);color:var(--c-gen)}
+.causal{background:#fff8f0;border:1px solid #fed7aa;border-radius:6px;padding:7px 10px;font-size:12.5px;margin-top:8px;color:#78350f}
+.src-ref{display:inline-block;font-size:10px;font-family:var(--mono);background:var(--accent-l);color:var(--accent);border-radius:3px;padding:0 4px;cursor:pointer;font-weight:600;vertical-align:middle;margin:0 1px}
+.src-ref:hover{background:#dce5fd}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{background:var(--accent-l);border:1px solid #c7d4f9;border-radius:20px;padding:4px 11px;font-size:12px;color:var(--accent);cursor:pointer;font-weight:500;transition:background .15s;user-select:none}
+.pill:hover{background:#dce5fd}
+.copy-pill{background:var(--surface2);border:1px dashed var(--border);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;user-select:none;position:relative}
+.copy-pill:hover{background:var(--accent-l);color:var(--accent);border-color:#c7d4f9}
+.copy-pill::after{content:"click to copy";position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#1a1916;color:#fff;font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+.copy-pill:hover::after{opacity:1}
+
+.thinking{display:flex;align-items:center;gap:4px;padding:12px 14px;color:var(--muted);font-size:13px}
+.thinking span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.thinking span:nth-child(2){animation-delay:.2s}
+.thinking span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+/* INPUT */
+.input-area{flex-shrink:0;border-top:1px solid var(--border);background:var(--surface);padding:10px 18px 12px}
+.chips-row{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap;align-items:center}
+.tpl-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:2px;white-space:nowrap}
+.tchip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .15s;user-select:none}
+.tchip:hover{background:var(--accent-l);color:var(--accent);border-color:#c7d4f9}
+.test-chip{background:#fff;border:1.5px solid var(--accent);border-radius:20px;padding:3px 11px;font-size:12px;color:var(--accent);cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s;user-select:none;white-space:nowrap}
+.test-chip:hover{background:var(--accent-l)}
+
+/* TEST POPOVER */
+.test-popover-wrap{position:relative;flex-shrink:0}
+.test-popover{position:absolute;bottom:calc(100% + 8px);right:0;width:320px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:200;display:none;overflow:hidden}
+.test-popover.open{display:block;animation:pop-in .18s ease}
+@keyframes pop-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.popover-tabs{display:flex;border-bottom:1px solid var(--border)}
+.ptab{flex:1;padding:8px 0;text-align:center;font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.ptab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.ptab-content{padding:13px;display:none;max-height:360px;overflow-y:auto}
+.ptab-content.active{display:block}
+.tcard{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px;margin-bottom:8px}
+.thdr{font-weight:600;font-size:12.5px;color:var(--accent);margin-bottom:7px}
+.topts{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.topt{border:1.5px solid var(--border);border-radius:7px;padding:7px 11px;font-size:12.5px;cursor:pointer;background:var(--surface);line-height:1.4;transition:border-color .15s,background .15s;user-select:none}
+.topt:hover:not(.locked){border-color:var(--accent);background:var(--accent-l)}
+.topt.correct{border-color:#166534!important;background:var(--c-pre-bg)!important;color:#166534!important;pointer-events:none}
+.topt.wrong{border-color:#be123c!important;background:var(--c-dan-bg)!important;color:#be123c!important;pointer-events:none}
+.topt.locked{pointer-events:none}
+.tfb{margin-top:8px;font-size:12px;padding:7px 10px;border-radius:7px;display:none;line-height:1.55}
+.tfb.show{display:block}
+.tfb.ok{background:var(--c-pre-bg);color:#166534;border:1px solid #86efac}
+.tfb.bad{background:var(--c-dan-bg);color:#be123c;border:1px solid #fca5a5}
+.gen-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px;font-size:12.5px;font-family:var(--sans);font-weight:500;cursor:pointer;margin-bottom:8px;transition:background .15s}
+.gen-btn:hover{background:#1e4bc4}
+.gen-btn:disabled{background:#aab8f0;cursor:default}
+.se-card{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:11px}
+.se-hdr{font-weight:600;color:#166534;font-size:12.5px;margin-bottom:4px}
+.se-prompt{font-size:11.5px;color:#166534;margin-bottom:6px;line-height:1.5}
+.se-card textarea{width:100%;border:1px solid #86efac;border-radius:6px;padding:6px;font-family:var(--sans);font-size:12.5px;resize:vertical;min-height:66px;outline:none;background:#fff;display:block}
+.se-card textarea:focus{border-color:#1a7a4a}
+.se-actions{display:flex;gap:6px;margin-top:6px}
+.se-submit{background:#166534;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:12px;font-family:var(--sans);cursor:pointer}
+.se-submit:hover{background:#14532d}
+.se-submit:disabled{background:#86efac;cursor:default}
+.se-clear{background:none;border:1px solid #86efac;border-radius:6px;padding:4px 8px;font-size:12px;font-family:var(--sans);cursor:pointer;color:#166534}
+.se-clear:hover{background:#dcfce7}
+.se-fb{margin-top:7px;padding:7px 9px;background:#dcfce7;border:1px solid #86efac;border-radius:6px;font-size:12px;color:#166534;display:none;line-height:1.5}
+.se-fb.show{display:block}
+
+.irow{display:flex;gap:8px;align-items:flex-end}
+.cinput{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:8px 12px;font-family:var(--sans);font-size:13.5px;outline:none;background:var(--surface);transition:border-color .15s;resize:none;min-height:40px;max-height:110px}
+.cinput:focus{border-color:var(--accent)}
+.sbtn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--sans);font-size:13.5px;font-weight:500;cursor:pointer;height:40px;white-space:nowrap}
+.sbtn:hover{background:#1e4bc4}
+.sbtn:disabled{background:#aab8f0;cursor:default}
+.dbtn{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 13px;font-family:var(--sans);font-size:12.5px;cursor:pointer;color:var(--muted);height:40px}
+.dbtn:hover{border-color:var(--muted)}
+
+/* RIGHT PANEL */
+.rpanel{width:252px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column}
+.rtabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.rtab{flex:1;padding:9px 0;text-align:center;font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.rtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.rtab-content{flex:1;overflow-y:auto;padding:13px;display:none}
+.rtab-content.active{display:block}
+.src-empty{text-align:center;padding:26px 10px;color:var(--muted);font-size:12px;line-height:1.7}
+.src-item{padding:8px 0;border-bottom:1px solid var(--border);transition:background .3s;border-radius:4px;padding-left:4px}
+.src-item:last-child{border-bottom:none}
+.src-num{display:inline-block;font-size:10px;font-family:var(--mono);font-weight:600;background:var(--accent-l);color:var(--accent);border-radius:3px;padding:1px 5px;margin-bottom:3px}
+.src-link{display:block;font-size:12px;color:var(--accent);text-decoration:none;font-weight:500;line-height:1.4;margin-bottom:3px}
+.src-link:hover{text-decoration:underline}
+.src-meta{display:flex;align-items:center;gap:6px}
+.src-badge{font-size:10px;font-family:var(--mono);background:var(--surface2);border-radius:3px;padding:1px 5px;color:var(--muted)}
+.src-expand-btn{font-size:11px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:var(--sans);text-decoration:underline;padding:0}
+.src-summary{display:none;margin-top:6px;background:var(--surface2);border-radius:6px;padding:7px 9px;font-size:11.5px;line-height:1.6;color:var(--text)}
+.src-summary.open{display:block}
+.rw-empty{text-align:center;padding:26px 10px;color:var(--muted);font-size:12px;line-height:1.7}
+.rw-case{background:#fff8f0;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:12.5px;color:#78350f;margin-bottom:9px;line-height:1.65}
+.rw-title{font-weight:600;margin-bottom:4px;font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rw-link{font-size:11px;color:#b45309;text-decoration:underline}
+.cve-badge{display:inline-block;font-size:10px;font-family:var(--mono);background:#f97316;color:#fff;border-radius:3px;padding:1px 6px;margin-bottom:4px}
+
+
+/* web search toggle */
+.ws-toggle-wrap{display:flex;align-items:center;gap:7px}
+.ws-label{font-size:11px;font-family:var(--mono);color:var(--muted);white-space:nowrap}
+.ws-label.on{color:var(--accent)}
+.ws-switch{position:relative;width:34px;height:18px;flex-shrink:0}
+.ws-switch input{opacity:0;width:0;height:0}
+.ws-slider{position:absolute;inset:0;background:#dddbd3;border-radius:18px;cursor:pointer;transition:background .2s}
+.ws-slider::before{content:'';position:absolute;width:12px;height:12px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+.ws-switch input:checked + .ws-slider{background:var(--accent)}
+.ws-switch input:checked + .ws-slider::before{transform:translateX(16px)}
+
+@keyframes fin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.appear{animation:fin .22s ease}
+.itry{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:9px}
+.try-lbl{font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center">
+    <span class="logo">SecureLearn</span>
+    <span class="topic-pill" id="topicPill">&#8212;</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="ws-toggle-wrap" title="When on, responses are grounded in live web search results via Tavily">
+      <span class="ws-label" id="wsLabel">Web search: off</span>
+      <label class="ws-switch">
+        <input type="checkbox" id="wsToggle" onchange="toggleWebSearch(this)">
+        <span class="ws-slider"></span>
+      </label>
+    </div>
+    <span class="qctr" id="qctr">0 queries</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sl">Topics explored</div>
+  <div class="dim-item" data-d="Recognition" id="dim-Recognition"><div class="dim-dot"></div><span class="dim-label">Recognition</span></div>
+  <div class="dim-item" data-d="Cause"       id="dim-Cause"      ><div class="dim-dot"></div><span class="dim-label">Cause</span></div>
+  <div class="dim-item" data-d="Behavior"    id="dim-Behavior"   ><div class="dim-dot"></div><span class="dim-label">Behavior</span></div>
+  <div class="dim-item" data-d="Danger"      id="dim-Danger"     ><div class="dim-dot"></div><span class="dim-label">Danger</span></div>
+  <div class="dim-item" data-d="Prevention"  id="dim-Prevention" ><div class="dim-dot"></div><span class="dim-label">Prevention</span></div>
+  <hr class="sdiv">
+  <div class="smeta" id="smeta">0 queries</div>
+  <div class="timer-label">Time spent</div>
+  <div class="timer" id="timer">0:00</div>
+  <hr class="sdiv">
+  <div class="sl">History <span style="font-size:9px;font-weight:400;color:var(--muted)">(click to copy)</span></div>
+  <div id="histList"></div>
+</div>
+
+<!-- CHAT WRAPPER -->
+<div class="chat-wrapper">
+
+  <!-- CODE STRIP - collapsed by default -->
+  <div class="code-strip">
+    <div class="code-strip-hdr" onclick="toggleCodeStrip()">
+      <div class="code-strip-title">
+        <span>Code Snippet</span>
+        <span class="code-strip-badge" id="codeStripBadge" style="display:none">loaded</span>
+      </div>
+      <div class="code-strip-actions">
+        <button class="code-strip-btn" onclick="event.stopPropagation();openCodeModal()">Paste / Edit</button>
+        <span id="codeStripToggleLabel" style="font-size:11px;font-family:var(--mono);color:#666;white-space:nowrap;">&#9660; expand</span>
+        <span class="code-strip-arrow" id="codeStripArrow">&#9658;</span>
+      </div>
+    </div>
+    <div class="code-strip-body" id="codeStripBody">
+      <p class="code-empty-msg" id="codeEmptyMsg">No code loaded. Click "Paste / Edit" to add a code snippet.</p>
+      <pre class="cpre" id="codePre" style="display:none"></pre>
+    </div>
+    <div class="code-resize-handle" id="codeResizeHandle"></div>
+  </div>
+
+  <!-- CODE PASTE MODAL -->
+  <div class="code-paste-modal-overlay" id="codeModal">
+    <div class="code-paste-modal">
+      <h3>Paste your code snippet</h3>
+      <p>The code will be included as context in every query so responses are specific to your code.</p>
+      <textarea id="codeModalTa" placeholder="// paste your code here..."></textarea>
+      <div class="code-paste-actions">
+        <button class="btn-cancel" onclick="closeCodeModal()">Cancel</button>
+        <button class="btn-ok" onclick="confirmCode()">Load code</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="msgs">
+    <div class="ma appear">
+      <div class="block-card">
+        <div class="block-hdr" onclick="toggleBlock(this)">
+          <div class="block-hdr-left"><span class="stag t-General">SecureLearn</span></div>
+          <span class="block-hint">click to collapse</span>
+          <span class="block-arrow open">&#9658;</span>
+        </div>
+        <div class="block-body open">
+          <div style="padding:10px 13px;font-size:13.5px;line-height:1.65;">
+            <ul style="margin:0 0 0 2px;padding:0;list-style:none;line-height:2;font-size:13.5px;">
+              <li>&#128196; Paste your code in the <strong>Code Snippet</strong> bar above for context-aware responses</li>
+              <li>&#128269; Ask anything about a vulnerability &mdash; what it is, why it happens, how it behaves, the risks, how to fix it</li>
+              <li>&#128209; Check <strong>Sources</strong> and <strong>Real-world</strong> on the right for references and CVE cases</li>
+              <li>&#129514; Use <strong>Test &amp; Reflect</strong> below to quiz yourself or write a self-explanation any time</li>
+            </ul>
+            <div class="itry">
+              <span class="try-lbl" style="white-space:nowrap">copy a template:</span>
+              <span class="copy-pill" onclick="copyToInput('What is [vulnerability]?')">What is [vulnerability]?</span>
+              <span class="copy-pill" onclick="copyToInput('Where does [vulnerability] occur in code?')">Where in code?</span>
+              <span class="copy-pill" onclick="copyToInput('Why does [vulnerability] happen?')">Why does it happen?</span>
+              <span class="copy-pill" onclick="copyToInput('What are the risks of [vulnerability]?')">Security risks?</span>
+              <span class="copy-pill" onclick="copyToInput('How do I fix [vulnerability]?')">How to fix?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-area">
+    <div class="chips-row" style="justify-content:flex-end">
+      <div class="test-popover-wrap">
+        <button class="test-chip" id="testChipBtn" onclick="toggleTestPopover(event)">&#129514; Test &amp; Reflect</button>
+        <div class="test-popover" id="testPopover">
+          <div class="popover-tabs">
+            <div class="ptab active" id="ptab-mcq" onclick="switchPTab('mcq',this)">Quiz</div>
+            <div class="ptab"        id="ptab-se"  onclick="switchPTab('se',this)">Reflect</div>
+          </div>
+          <div class="ptab-content active" id="pcontent-mcq">
+            <button class="gen-btn" id="genBtn" onclick="generateMCQ()">Generate a question</button>
+            <div id="mcqArea"><p style="font-size:12px;color:var(--muted);line-height:1.6">Questions are based on your conversation so far. Generate as many as you like.</p></div>
+          </div>
+          <div class="ptab-content" id="pcontent-se">
+            <div class="se-card">
+              <div class="se-hdr">&#9998; Reflect in your own words</div>
+              <div class="se-prompt">Describe what you have learned, or explain why a specific fix works.</div>
+              <textarea id="seText" placeholder="Type your explanation here..."></textarea>
+              <div class="se-actions">
+                <button class="se-submit" id="seSubmitBtn" onclick="submitSE()">Submit &#8594;</button>
+                <button class="se-clear" onclick="clearSE()">Clear</button>
+              </div>
+              <div class="se-fb" id="seFeedback"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="irow">
+      <textarea class="cinput" id="cin" placeholder="Ask about a vulnerability..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
+        oninput="ar(this)"></textarea>
+      <button class="dbtn" onclick="handleDone()">I'm done</button>
+      <button class="sbtn" id="sbtn" onclick="send()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="rpanel">
+  <div class="rtabs">
+    <div class="rtab active" id="rtab-sources"   onclick="switchTab('sources',this)">Sources</div>
+    <div class="rtab"        id="rtab-realworld" onclick="switchTab('realworld',this)">Real-world</div>
+  </div>
+  <div class="rtab-content active" id="tab-sources">
+    <div class="src-empty" id="srcEmpty">Sources will appear after your first query.</div>
+    <div id="srcList"></div>
+  </div>
+  <div class="rtab-content" id="tab-realworld">
+    <div class="rw-empty" id="rwEmpty">Real-world cases will appear once a vulnerability is identified.</div>
+    <div id="rwList"></div>
+  </div>
+</div>
+
+</div><!-- /layout -->
+
+<script>
+var DIMS=['Recognition','Cause','Behavior','Danger','Prevention'];
+var DIM_COLORS={Recognition:'var(--c-rec)',Cause:'var(--c-cau)',Behavior:'var(--c-beh)',Danger:'var(--c-dan)',Prevention:'var(--c-pre)'};
+var DIM_BGS={Recognition:'var(--c-rec-bg)',Cause:'var(--c-cau-bg)',Behavior:'var(--c-beh-bg)',Danger:'var(--c-dan-bg)',Prevention:'var(--c-pre-bg)'};
+var DIM_KEYWORDS={
+  Recognition:/\b(where|which line|which function|locate|find.*code|point.*out|in the code|line \d)\b/i,
+  Cause:/\b(what is|what's|what it is|why|cause|reason|root|underlying|define|explain|tell me about|describe|definition|difference|how does|overview)\b/i,
+  Behavior:/\b(runtime|at runtime|execution|manifest|what happens when|memory|stack|heap|crash|how.*work|flow|behav)\b/i,
+  Danger:/\b(risk|danger|impact|harm|exploit|attacker|consequence|what.*attacker|what.*happen if|severe|critical|cvss)\b/i,
+  Prevention:/\b(fix|prevent|mitigat|patch|remediat|correct|safe|solution|how.*(stop|avoid|prevent))\b/i
+};
+var S={n:0,litDims:new Set(),history:[],busy:false,srcs:[],rws:[],startTime:Date.now(),testCount:0,codeSnippet:''};
+
+setInterval(function(){
+  var s=Math.floor((Date.now()-S.startTime)/1000),m=Math.floor(s/60),sec=s%60;
+  document.getElementById('timer').textContent=m+':'+(sec<10?'0':'')+sec;
+},1000);
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function $(id){return document.getElementById(id);}
+function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
+function sb(){var c=$('msgs');setTimeout(function(){c.scrollTop=c.scrollHeight;},60);}
+function setBusy(v){S.busy=v;$('sbtn').disabled=v;}
+function toggleWebSearch(el){
+  var lbl=document.getElementById('wsLabel');
+  lbl.textContent=el.checked?'Web search: on':'Web search: off';
+  lbl.className='ws-label'+(el.checked?' on':'');
+}
+function webSearchEnabled(){
+  var el=document.getElementById('wsToggle');
+  return el?el.checked:false;
+}
+function updateCounter(){var n=S.n;$('qctr').textContent=n+(n===1?' query':' queries');$('smeta').textContent=n+' quer'+(n===1?'y':'ies')+' so far';}
+
+/* CODE STRIP */
+function toggleCodeStrip(){
+  var lbl=document.getElementById('codeStripToggleLabel');
+  var body=$('codeStripBody'),arrow=$('codeStripArrow');
+  body.classList.toggle('open');arrow.classList.toggle('open');
+  if(lbl)lbl.textContent=body.classList.contains('open')?'\u25b2 collapse':'\u25bc expand';
+}
+function openCodeModal(){$('codeModal').classList.add('open');$('codeModalTa').value=S.codeSnippet;$('codeModalTa').focus();}
+function closeCodeModal(){$('codeModal').classList.remove('open');}
+function confirmCode(){
+  var code=$('codeModalTa').value.trim();
+  S.codeSnippet=code;
+  if(code){
+    $('codePre').textContent=code;$('codePre').style.display='block';
+    $('codeEmptyMsg').style.display='none';
+    $('codeStripBadge').style.display='inline';
+    /* auto-open strip to show loaded code */
+    $('codeStripBody').classList.add('open');$('codeStripArrow').classList.add('open');var _lbl=document.getElementById('codeStripToggleLabel');if(_lbl)_lbl.textContent='\u25b2 collapse';
+  }else{
+    $('codePre').style.display='none';$('codeEmptyMsg').style.display='block';
+    $('codeStripBadge').style.display='none';
+  }
+  closeCodeModal();
+}
+/* Code return nudge after Cause/Behavior responses */
+function showCodeReturnNudge(){
+  if(!S.codeSnippet)return;
+  var el=document.createElement('div');el.className='code-return-nudge appear';
+  el.innerHTML='<span class="crn-icon">&#128196;</span>'
+    +'<span style="flex:1">Look back at the code snippet &mdash; can you spot the issue now?</span>'
+    +'<button class="crn-btn" onclick="openCodeAndHighlight()">View code</button>'
+    +'<span class="crn-dis" onclick="this.parentElement.remove()">&#215;</span>';
+  $('msgs').appendChild(el);sb();
+}
+function openCodeAndHighlight(){
+  $('codeStripBody').classList.add('open');$('codeStripArrow').classList.add('open');
+  $('codeStripBody').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* TEST POPOVER */
+function toggleTestPopover(e){e.stopPropagation();$('testPopover').classList.toggle('open');}
+document.addEventListener('click',function(e){
+  var p=$('testPopover'),btn=$('testChipBtn');
+  if(p.classList.contains('open')&&!p.contains(e.target)&&e.target!==btn)p.classList.remove('open');
+});
+function switchPTab(id,el){
+  document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.ptab-content').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');$('pcontent-'+id).classList.add('active');
+}
+
+/* SIDEBAR DIMS */
+function lightDims(text){
+  DIMS.forEach(function(d){
+    if(DIM_KEYWORDS[d]&&DIM_KEYWORDS[d].test(text)){S.litDims.add(d);var item=$('dim-'+d);if(item)item.className='dim-item lit';}
+  });
+}
+
+/* CHIPS */
+function updateChips(){
+  if(!document.getElementById('tplRow'))return;
+  var unlit=DIMS.filter(function(d){return !S.litDims.has(d);});
+  var qMap={Recognition:'Where exactly is the vulnerability?',Cause:'What is this and why does it happen?',Behavior:'How does this behave at runtime?',Danger:'What are the security risks?',Prevention:'How do I fix this?'};
+  var chips=unlit.length?unlit.slice(0,3).map(function(d){return qMap[d];}):['Are there other vulnerabilities?','Explain to a beginner'];
+  $('tplRow').innerHTML=chips.map(function(c){var s=c.length>30?c.slice(0,30)+'...':c;return '<span class="tchip" onclick="sendDirect('+JSON.stringify(c)+')">'+esc(s)+'</span>';}).join('');
+}
+
+/* HISTORY - click to copy, no tags, full text tooltip */
+function addHistory(q){
+  var el=document.createElement('div');el.className='hist-item';
+  el.title=q;
+  el.textContent=q.length>38?q.slice(0,38)+'...':q;
+  el.addEventListener('click',function(){
+    navigator.clipboard.writeText(q).then(function(){
+      var orig=el.textContent;
+      el.textContent='Copied!';el.style.color='var(--c-pre)';
+      setTimeout(function(){el.textContent=q.length>38?q.slice(0,38)+'...':q;el.style.color='';},1000);
+    });
+  });
+  $('histList').appendChild(el);
+}
+
+/* NUDGES */
+function nudgeEl(html){var el=document.createElement('div');el.className='nudge appear';el.innerHTML=html;$('msgs').appendChild(el);sb();return el;}
+function causeFirstNudge(originalText){
+  var el=nudgeEl('<div class="nudge-icon">&#128161;</div><div class="nudge-body"><strong>You asked about a fix</strong> &mdash; want to understand <em>why</em> this happens first? It makes the fix stick better.<div class="nudge-acts"><button class="nbtn p" id="nudge-yes">Yes, explain why first</button><button class="nbtn" id="nudge-no">Skip to fix</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+  $('nudge-yes').onclick=function(){el.remove();callAPI(originalText,'Cause');};
+  $('nudge-no').onclick=function(){el.remove();callAPI(originalText,'Prevention');};
+}
+function doneNudge(){
+  /* check Cause AND Danger — either missing triggers nudge */
+  var missing=null;
+  if(!S.litDims.has('Cause'))missing='Cause';
+  else if(!S.litDims.has('Danger'))missing='Danger';
+  if(!missing)return;
+  var qMap={Cause:'What is this vulnerability and why does it happen?',Danger:'What are the security risks if this is exploited?'};
+  nudgeEl('<div class="nudge-icon">&#9888;&#65039;</div><div class="nudge-body"><strong>Before you go</strong> &mdash; you have not covered <em>'+missing+'</em> yet. Understanding it helps knowledge stick.<div class="nudge-acts"><button class="nbtn p" onclick="this.closest(\'.nudge\').remove();sendDirect('+JSON.stringify(qMap[missing])+')">Ask about '+missing+'</button><button class="nbtn" onclick="this.closest(\'.nudge\').remove()">Finish anyway</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+}
+
+function sendDirect(text){$('cin').value=text;send();}
+function send(){
+  var inp=$('cin'),text=inp.value.trim();
+  if(!text||S.busy)return;
+  S.n++;updateCounter();appendUser(text);lightDims(text);addHistory(text);
+  inp.value='';inp.style.height='auto';updateChips();
+  /* semantic nudge check: ask LLM if this is a fix/prevention query with no prior context */
+  if(S.litDims.size===0){
+    checkIfPreventionQuery(text);
+    return;
+  }
+  callAPI(text,null);
+}
+function appendUser(t){var el=document.createElement('div');el.className='mu appear';el.innerHTML='<div class="mu-bubble">'+esc(t)+'</div>';$('msgs').appendChild(el);sb();}
+
+
+function checkIfPreventionQuery(text){
+  /* Use LLM to classify whether this is a prevention/fix query.
+     If yes and no prior context, show the nudge. Otherwise proceed normally. */
+  fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      use_search:false,
+      system:'Classify the following query. Reply with ONLY one word: "prevention" if the query is asking how to fix, prevent, mitigate, or patch a vulnerability. Reply "other" for anything else (definitions, explanations, risks, greetings, etc.).',
+      messages:[{role:'user',content:text}]
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var cls=((data.content&&data.content[0])?data.content[0].text:'').toLowerCase().trim();
+    if(cls.indexOf('prevention')>=0){
+      causeFirstNudge(text);
+    } else {
+      callAPI(text,null);
+    }
+  })
+  .catch(function(){callAPI(text,null);});
+}
+function callAPI(userText,hintDim){
+  setBusy(true);var thinkEl=appendThink();
+  S.history.push({role:'user',content:userText});
+  fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:buildSys(hintDim),messages:S.history,use_search:webSearchEnabled()})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    thinkEl.remove();
+    if(data.error){appendErr(JSON.stringify(data.error));S.history.pop();setBusy(false);return;}
+    var raw=(data.content&&data.content[0])?data.content[0].text:'';
+    S.history.push({role:'assistant',content:raw});
+    var parsed=parseResp(raw);
+    renderResp(parsed);
+    updateChips();
+    /* show code return nudge after Cause or Behavior responses */
+    var dims=parsed.sections.map(function(s){return s.d;});
+    if(dims.indexOf('Cause')>=0||dims.indexOf('Behavior')>=0)showCodeReturnNudge();
+  })
+  .catch(function(e){thinkEl.remove();appendErr('Network error: '+e.message);S.history.pop();})
+  .finally(function(){setBusy(false);});
+}
+function appendThink(){var el=document.createElement('div');el.className='ma appear';el.innerHTML='<div class="block-card"><div class="thinking"><span></span><span></span><span></span> Thinking...</div></div>';$('msgs').appendChild(el);sb();return el;}
+function appendErr(msg){var el=document.createElement('div');el.className='ma appear';el.innerHTML='<div class="block-card"><div style="padding:10px 13px;color:#be123c;font-size:13px;">&#9888; '+esc(msg)+'</div></div>';$('msgs').appendChild(el);sb();}
+
+function buildSys(hintDim){
+  var codeCtx=S.codeSnippet?'\nThe user has provided this code snippet for analysis:\n```\n'+S.codeSnippet+'\n```\nReference specific lines when relevant.\n':'';
+  var srcCtx=S.srcs.length?'Previously cited sources (reuse numbers): '+S.srcs.map(function(s){return '['+s.num+'] '+s.label;}).join(', ')+'.\n':'';
+  var focus=hintDim?'\nPRIMARY FOCUS: '+hintDim+' - lead with this.\n':'';
+  return 'You are SecureLearn, an educational assistant for software vulnerability learning.\n'+codeCtx+srcCtx+focus
+    +'\nDIMENSION LABELS — use only when the query is directly about a specific vulnerability aspect:\n'
+    +'- Recognition: user asks WHERE in code the vulnerability is\n'
+    +'- Cause: user asks WHY it exists or what the vulnerability fundamentally is\n'
+    +'- Behavior: user asks HOW it manifests at runtime\n'
+    +'- Danger: user asks about risks or attacker impact\n'
+    +'- Prevention: user asks how to fix or mitigate\n'
+    +'- General: use for background concepts, comparisons, follow-ups, greetings, or anything that does NOT map cleanly to the above\n'
+    +'IMPORTANT: Do NOT force a vulnerability dimension onto general knowledge questions (e.g. "what is SQL", "what is a pointer"). Use General instead.\n'
+    +'\nSTRUCTURE every response:\n'
+    +'[SECTION:DimensionName]\n'
+    +'[SUB:Short bold title]\n<content>\n[SUB:Title]\n<content>\n'
+    +'2-4 sub-blocks per section. First open by default. Multiple [SECTION:X] allowed if query spans dimensions.\n\n'
+    +'[CAUSAL_FRAMING]\n<"If unaddressed, an attacker can..." - Cause or Danger only>\n\n'
+    +'[SOURCES]\n[{"label":"Title","url":"https://real-url.org","badge":"CVE|OWASP|MITRE|guideline|paper","summary":"one sentence"},... 3-5 sources]\n\n'
+    +'[REAL_WORLD]\n[{"title":"Name","cve":"CVE-XXXX or null","url":"https://url.com","description":"2 sentences"},... 1-2 cases]\n\n'
+    +'[FOLLOW_UP_PILLS]\n["question 1","question 2","question 3"]\n\n'
+    +'Rules: cite sources as [N]; no text outside tags; sub-block titles are short bold phrases.';
+}
+
+function extractBlock(text,tag){var re=new RegExp('\\['+tag+'\\]([\\s\\S]*?)(?=\\[\\w|\\s*$)');var m=re.exec(text);return m?m[1].trim():'';}
+function parseResp(raw){
+  var p={sections:[],causal:'',sources:[],rw:[],pills:[]};
+  var secRe=/\[SECTION:(\w+)\]([\s\S]*?)(?=\[SECTION:|\[CAUSAL|\[SOURCES|\[REAL_WORLD|\[FOLLOW|\s*$)/g,m;
+  while((m=secRe.exec(raw))!==null){
+    var secRaw=m[2],subs=[],subRe=/\[SUB:([^\]]+)\]([\s\S]*?)(?=\[SUB:|\[SECTION:|\[CAUSAL|\[SOURCES|\[REAL|\[FOLLOW|\s*$)/g,sm;
+    while((sm=subRe.exec(secRaw))!==null)subs.push({title:sm[1].trim(),body:sm[2].trim()});
+    if(!subs.length){var b=secRaw.trim();if(b)subs.push({title:'',body:b});}
+    p.sections.push({d:m[1],subs:subs});
+  }
+  if(!p.sections.length){var fb=raw.split(/\[/)[0].trim();if(fb)p.sections.push({d:'General',subs:[{title:'',body:fb}]});}
+  p.causal=extractBlock(raw,'CAUSAL_FRAMING');
+  try{p.sources=JSON.parse(extractBlock(raw,'SOURCES')||'[]');}catch(e){}
+  try{p.rw=JSON.parse(extractBlock(raw,'REAL_WORLD')||'[]');}catch(e){}
+  try{p.pills=JSON.parse(extractBlock(raw,'FOLLOW_UP_PILLS')||'[]');}catch(e){}
+  return p;
+}
+
+function renderResp(p){
+  if(p.sources.length)addSources(p.sources);
+  if(p.rw.length)addRW(p.rw);
+  var c=$('msgs'),wrapper=document.createElement('div');wrapper.className='ma appear';
+  p.sections.forEach(function(sec,si){
+    var card=document.createElement('div');card.className='block-card';
+    card.dataset.plain=sec.subs.map(function(s){return(s.title?s.title+'\n':'')+s.body;}).join('\n\n');
+
+    /* Prevention block: default COLLAPSED if Cause not yet explored */
+    var preventionGated=(sec.d==='Prevention'&&!S.litDims.has('Cause'));
+    var bodyOpen=!preventionGated;
+
+    card.innerHTML='<div class="block-hdr" onclick="toggleBlock(this)">'
+      +'<div class="block-hdr-left"><span class="stag t-'+sec.d+'">'+sec.d+'</span>'
+      +(preventionGated?'<span style="font-size:11px;color:var(--muted);font-family:var(--mono)">understand Cause first</span>':'')
+      +'</div>'
+      +'<span class="block-hint">'+(bodyOpen?'click to collapse':'click to expand')+'</span>'
+      +'<button class="block-copy" onclick="event.stopPropagation();copyBlockText(this)" title="Copy">copy</button>'
+      +'<span class="block-arrow'+(bodyOpen?' open':'')+'">&#9658;</span>'
+      +'</div>';
+
+    var body=document.createElement('div');
+    body.className='block-body'+(bodyOpen?' open':'');
+    sec.subs.forEach(function(sub,i){
+      var subEl=document.createElement('div'),isOpen=(i===0);subEl.className='sub-block';
+      if(sub.title){
+        subEl.innerHTML='<div class="sub-hdr" onclick="toggleSub(this)">'
+          +'<div class="sub-hdr-left"><span class="sub-title">'+esc(sub.title)+'</span></div>'
+          +'<span class="sub-hint">'+(isOpen?'click to collapse':'click to expand')+'</span>'
+          +'<span class="sub-arrow'+(isOpen?' open':'')+'">&#9658;</span>'
+          +'</div>'
+          +'<div class="sub-body'+(isOpen?' open':'')+'">'+injectSrcRefs(fmt(sub.body))+'</div>';
+      }else{
+        subEl.innerHTML='<div class="sub-body open" style="display:block;padding:10px 13px;border-top:none;">'+injectSrcRefs(fmt(sub.body))+'</div>';
+      }
+      body.appendChild(subEl);
+    });
+    if(si===0&&p.causal){var cf=document.createElement('div');cf.style.padding='0 13px 10px';cf.innerHTML='<div class="causal"><strong>If unaddressed:</strong> '+esc(p.causal)+'</div>';body.appendChild(cf);}
+    if(preventionGated){var gate=document.createElement('div');gate.style.padding='10px 13px';gate.innerHTML='<div style="background:var(--surface2);border-radius:6px;padding:8px 10px;font-size:12.5px;color:var(--muted)">&#128161; Understanding the root cause makes this fix more memorable. <span class="pill" style="display:inline-block;margin-top:4px" onclick="sendDirect(\'Why does this vulnerability happen?\')">Explore Cause &#8594;</span></div>';body.appendChild(gate);}
+    card.appendChild(body);wrapper.appendChild(card);
+  });
+  if(p.pills.length){
+    var pr=document.createElement('div');pr.className='pills';
+    p.pills.forEach(function(q){var span=document.createElement('span');span.className='pill';span.textContent=q;span.addEventListener('click',function(){sendDirect(q);});pr.appendChild(span);});
+    wrapper.appendChild(pr);
+  }
+  c.appendChild(wrapper);sb();
+}
+
+function toggleBlock(hdr){
+  var b=hdr.nextElementSibling,a=hdr.querySelector('.block-arrow'),h=hdr.querySelector('.block-hint');
+  b.classList.toggle('open');a.classList.toggle('open');
+  if(h)h.textContent=b.classList.contains('open')?'click to collapse':'click to expand';
+}
+function toggleSub(hdr){
+  var b=hdr.nextElementSibling,a=hdr.querySelector('.sub-arrow'),h=hdr.querySelector('.sub-hint');
+  b.classList.toggle('open');a.classList.toggle('open');
+  if(h)h.textContent=b.classList.contains('open')?'click to collapse':'click to expand';
+}
+function copyBlockText(btn){var card=btn.closest('.block-card'),text=card.dataset.plain||card.innerText;navigator.clipboard.writeText(text).then(function(){btn.textContent='copied!';setTimeout(function(){btn.textContent='copy';},1200);});}
+function injectSrcRefs(html){return html.replace(/\[(\d+)\]/g,function(_,n){return '<span class="src-ref" onclick="highlightSrc('+n+')" title="Source '+n+'">['+n+']</span>';});}
+function highlightSrc(n){switchTabById('sources');document.querySelectorAll('#srcList .src-item').forEach(function(el){if(el.dataset.num==n){el.style.background='#fef3e2';setTimeout(function(){el.style.background='';},1500);el.scrollIntoView({behavior:'smooth',block:'nearest'});}});}
+function fmt(text){
+  if(!text)return'';
+  text=text.replace(/```(\w*)\n?([\s\S]*?)```/g,function(_,l,code){return '<div style="background:#141414;border-radius:6px;padding:8px 11px;margin:6px 0;font-family:var(--mono);font-size:11.5px;color:#a6e3a1;overflow-x:auto;white-space:pre;">'+esc(code.trim())+'</div>';});
+  text=text.replace(/`([^`]+)`/g,'<code>$1</code>');
+  text=text.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  text=text.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  text=text.replace(/^[-\u2022]\s+(.+)$/gm,'<li>$1</li>');
+  text=text.replace(/(<li>[\s\S]*?<\/li>)+/g,function(m){return '<ul>'+m+'</ul>';});
+  text=text.replace(/\n{2,}/g,'</p><p>').replace(/\n/g,'<br>');
+  return '<p>'+text+'</p>';
+}
+function addSources(list){list.forEach(function(s){if(S.srcs.find(function(x){return x.label===s.label;}))return;s.num=S.srcs.length+1;S.srcs.push(s);});renderSrcs();}
+function renderSrcs(){
+  var list=$('srcList');if(!S.srcs.length)return;$('srcEmpty').style.display='none';list.innerHTML='';
+  S.srcs.forEach(function(s){
+    var uid='s'+Math.random().toString(36).slice(2),div=document.createElement('div');div.className='src-item';div.dataset.num=s.num;
+    div.innerHTML='<span class="src-num">['+s.num+']</span><a class="src-link" href="'+(s.url||'#')+'" target="_blank">'+esc(s.label)+'</a><div class="src-meta"><span class="src-badge">'+esc(s.badge||'ref')+'</span>'+(s.summary?'<button class="src-expand-btn" onclick="toggleSum(\''+uid+'\')">&#9658; Summary</button>':'')+'</div>'+(s.summary?'<div class="src-summary" id="'+uid+'">'+esc(s.summary)+'</div>':'');
+    list.appendChild(div);
+  });
+}
+function toggleSum(id){var el=$(id);el.classList.toggle('open');var b=el.previousElementSibling.querySelector('.src-expand-btn');if(b)b.textContent=el.classList.contains('open')?'\u25be Summary':'\u25b8 Summary';}
+function addRW(list){list.forEach(function(c){if(!S.rws.find(function(x){return x.title===c.title;}))S.rws.push(c);});renderRW();}
+function renderRW(){
+  var list=$('rwList');if(!S.rws.length)return;$('rwEmpty').style.display='none';list.innerHTML='';
+  S.rws.forEach(function(c){var d=document.createElement('div');d.className='rw-case';var lk=c.url?'<a class="rw-link" href="'+esc(c.url)+'" target="_blank">&#8599; Read more</a>':'';d.innerHTML=(c.cve?'<div class="cve-badge">'+esc(c.cve)+'</div>':'')+'<div class="rw-title">'+esc(c.title)+lk+'</div><div>'+esc(c.description)+'</div>';list.appendChild(d);});
+}
+function switchTab(id,el){document.querySelectorAll('.rtab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.rtab-content').forEach(function(t){t.classList.remove('active');});el.classList.add('active');$('tab-'+id).classList.add('active');}
+function switchTabById(id){document.querySelectorAll('.rtab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.rtab-content').forEach(function(t){t.classList.remove('active');});var rt=$('rtab-'+id);if(rt)rt.classList.add('active');var tc=$('tab-'+id);if(tc)tc.classList.add('active');}
+function generateMCQ(){
+  if(S.busy)return;S.testCount++;
+  var btn=$('genBtn');btn.disabled=true;btn.textContent='Generating...';
+  var area=$('mcqArea');area.innerHTML='<div class="thinking"><span></span><span></span><span></span> Generating...</div>';
+  var sys='Generate ONE multiple-choice question to test understanding of the vulnerability discussed.'+(S.testCount>1?' Question #'+S.testCount+': test a different aspect.':'')
+    +' Return ONLY valid JSON (no markdown): {"question":"...","options":["a) ...","b) ...","c) ...","d) ..."],"correct":0,"explanation":"2-3 sentences: why correct answer is right and why each wrong option is incorrect"} correct is 0-indexed.';
+  var msgs=S.history.length?S.history.concat([{role:'user',content:'Generate MCQ #'+S.testCount}]):[{role:'user',content:'Generate a software vulnerability MCQ #'+S.testCount}];
+  fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,messages:msgs,use_search:false})})
+  .then(function(r){return r.json();})
+  .then(function(data){var raw=(data.content&&data.content[0])?data.content[0].text:'';var jm=raw.match(/\{[\s\S]+\}/);if(!jm)throw new Error('Could not parse JSON');renderMCQ(JSON.parse(jm[0]));})
+  .catch(function(e){area.innerHTML='<div style="color:#be123c;font-size:12px;">Error: '+esc(e.message)+'</div>';})
+  .finally(function(){btn.disabled=false;btn.textContent='Generate another question';});
+}
+function renderMCQ(q){
+  var area=$('mcqArea'),uid='mcq'+Math.random().toString(36).slice(2);
+  area.innerHTML='<div class="tcard"><div class="thdr">Question #'+S.testCount+'</div><div style="font-size:12.5px;line-height:1.55;margin-bottom:6px;">'+esc(q.question)+'</div><div class="topts" id="'+uid+'"></div><div class="tfb" id="fb-'+uid+'"></div></div>';
+  var optsEl=document.getElementById(uid);
+  q.options.forEach(function(optText,i){
+    var opt=document.createElement('div');opt.className='topt';opt.dataset.i=i;opt.textContent=optText;
+    opt.addEventListener('click',function(){
+      document.querySelectorAll('#'+uid+' .topt').forEach(function(o){o.classList.add('locked');});
+      opt.classList.add(i===q.correct?'correct':'wrong');
+      if(i!==q.correct){var ce=document.querySelector('#'+uid+' .topt[data-i="'+q.correct+'"]');if(ce)ce.classList.add('correct');}
+      var fb=document.getElementById('fb-'+uid);fb.className='tfb show '+(i===q.correct?'ok':'bad');
+      fb.innerHTML='<strong>'+(i===q.correct?'&#10003; Correct!':'&#10007; Not quite.')+'</strong> '+esc(q.explanation);
+    });
+    optsEl.appendChild(opt);
+  });
+}
+function submitSE(){
+  var text=$('seText').value.trim();if(!text)return;
+  var btn=$('seSubmitBtn'),fb=$('seFeedback');btn.disabled=true;btn.textContent='Checking...';fb.className='se-fb';
+  fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({use_search:false,system:'The user wrote a self-explanation of a software vulnerability concept. Evaluate in 2-3 sentences. If correct: confirm and add one key insight. If wrong/incomplete: gently correct and explain the missing point. Start with checkmark if correct or speech bubble if needs improvement. Max 60 words.',messages:S.history.concat([{role:'user',content:'My self-explanation: '+text}])})})
+  .then(function(r){return r.json();})
+  .then(function(data){var f=(data.content&&data.content[0])?data.content[0].text:'Thanks!';fb.className='se-fb show';fb.textContent=f;btn.textContent='Submit again';btn.disabled=false;})
+  .catch(function(){fb.className='se-fb show';fb.textContent='Could not get feedback right now.';btn.disabled=false;btn.textContent='Submit';});
+}
+function clearSE(){$('seText').value='';$('seFeedback').className='se-fb';$('seFeedback').textContent='';$('seSubmitBtn').textContent='Submit \u2192';$('seSubmitBtn').disabled=false;}
+function handleDone(){doneNudge();}
+updateChips();
+
+/* CODE STRIP RESIZE */
+(function(){
+  var handle = document.getElementById('codeResizeHandle');
+  var body   = document.getElementById('codeStripBody');
+  var strip  = handle.parentElement;
+  var dragging = false, startY = 0, startH = 0;
+
+  function showHandle(){
+    if(body.classList.contains('open')) handle.classList.add('visible');
+    else handle.classList.remove('visible');
+  }
+
+  // patch toggleCodeStrip to also show/hide handle
+  var origToggle = window.toggleCodeStrip;
+  window.toggleCodeStrip = function(){
+    origToggle();
+    showHandle();
+  };
+  // patch confirmCode
+  var origConfirm = window.confirmCode;
+  window.confirmCode = function(){
+    origConfirm();
+    showHandle();
+  };
+
+  handle.addEventListener('mousedown', function(e){
+    if(!body.classList.contains('open')) return;
+    dragging = true;
+    startY = e.clientY;
+    startH = body.offsetHeight;
+    handle.classList.add('dragging');
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', function(e){
+    if(!dragging) return;
+    var delta = e.clientY - startY;
+    var newH = Math.max(60, Math.min(500, startH + delta));
+    body.style.height = newH + 'px';
+  });
+  document.addEventListener('mouseup', function(){
+    if(dragging){ dragging = false; handle.classList.remove('dragging'); }
+  });
+})();
+
+function copyToInput(text){
+  navigator.clipboard.writeText(text).then(function(){
+    /* brief visual flash on the input */
+    var inp=document.getElementById('cin');
+    inp.style.borderColor='var(--c-pre)';
+    setTimeout(function(){inp.style.borderColor='';},800);
+  });
+}
+</script>
+</body>
+</html>
