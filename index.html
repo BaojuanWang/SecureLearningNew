@@ -45,7 +45,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .dim-item[data-d="Danger"].lit      .dim-dot{background:var(--c-dan);box-shadow:0 0 0 2px var(--c-dan-bg)}
 .dim-item[data-d="Prevention"].lit  .dim-dot{background:var(--c-pre);box-shadow:0 0 0 2px var(--c-pre-bg)}
 
-/* history - no tags, click to copy */
 .hist-item{font-size:11.5px;color:var(--muted);padding:5px 7px;border-radius:5px;cursor:pointer;line-height:1.4;border-left:2px solid var(--border);margin-bottom:3px;transition:background .12s;position:relative}
 .hist-item:hover{background:var(--surface2);color:var(--text)}
 .hist-item:hover::after{content:'click to copy';position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10px;font-family:var(--mono);color:var(--accent);background:var(--accent-l);padding:1px 5px;border-radius:3px}
@@ -53,7 +52,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 /* CHAT */
 .chat-wrapper{flex:1;display:flex;flex-direction:column;min-width:0}
 
-/* CODE PANEL - collapsible strip at top of chat */
 .code-strip{background:#1a1a1a;border-bottom:1px solid #2e2e2e;flex-shrink:0;overflow:hidden}
 .code-strip-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;cursor:pointer;user-select:none}
 .code-strip-hdr:hover{background:#222}
@@ -84,7 +82,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .btn-ok{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--sans)}
 .btn-ok:hover{background:#1e4bc4}
 
-/* code return nudge */
 .code-return-nudge{background:#1a1a1a;border:1px solid #2d5be3;border-radius:8px;padding:9px 13px;font-size:12.5px;display:flex;align-items:center;gap:9px;color:#89b4fa}
 .crn-icon{font-size:14px;flex-shrink:0}
 .crn-btn{background:#2d5be3;color:#fff;border:none;border-radius:5px;padding:3px 10px;font-size:11.5px;font-family:var(--sans);cursor:pointer;white-space:nowrap}
@@ -93,7 +90,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 
 .chat-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
 
-/* nudge */
 .nudge{background:var(--nudge-bg);border:1px solid var(--nudge-bd);border-radius:8px;padding:11px 13px;font-size:13px;display:flex;align-items:flex-start;gap:9px;animation:fin .25s ease}
 .nudge-icon{font-size:15px;flex-shrink:0;margin-top:1px}
 .nudge-body{flex:1}
@@ -109,7 +105,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .mu-bubble{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:9px 14px;max-width:68%;font-size:13.5px;line-height:1.55}
 .ma{display:flex;flex-direction:column;gap:5px;max-width:92%}
 
-/* BLOCK CARD */
 .block-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .block-hdr{display:flex;align-items:center;gap:8px;padding:9px 13px;cursor:pointer;user-select:none;transition:background .12s}
 .block-hdr:hover{background:var(--surface2)}
@@ -122,7 +117,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .block-copy{font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;font-family:var(--mono);transition:background .15s;flex-shrink:0}
 .block-copy:hover{background:var(--surface2);color:var(--text)}
 
-/* SUB-BLOCK */
 .sub-block{border-bottom:1px solid var(--border)}
 .sub-block:last-child{border-bottom:none}
 .sub-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;cursor:pointer;user-select:none;transition:background .12s;gap:8px}
@@ -164,7 +158,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .thinking span:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
 
-/* INPUT */
 .input-area{flex-shrink:0;border-top:1px solid var(--border);background:var(--surface);padding:10px 18px 12px}
 .chips-row{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap;align-items:center}
 .tpl-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:2px;white-space:nowrap}
@@ -173,7 +166,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .test-chip{background:#fff;border:1.5px solid var(--accent);border-radius:20px;padding:3px 11px;font-size:12px;color:var(--accent);cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s;user-select:none;white-space:nowrap}
 .test-chip:hover{background:var(--accent-l)}
 
-/* TEST POPOVER */
 .test-popover-wrap{position:relative;flex-shrink:0}
 .test-popover{position:absolute;bottom:calc(100% + 8px);right:0;width:320px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:200;display:none;overflow:hidden}
 .test-popover.open{display:block;animation:pop-in .18s ease}
@@ -221,7 +213,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .dbtn{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 13px;font-family:var(--sans);font-size:12.5px;cursor:pointer;color:var(--muted);height:40px}
 .dbtn:hover{border-color:var(--muted)}
 
-/* RIGHT PANEL */
 .rpanel{width:252px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column}
 .rtabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
 .rtab{flex:1;padding:9px 0;text-align:center;font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
@@ -245,8 +236,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .rw-link{font-size:11px;color:#b45309;text-decoration:underline}
 .cve-badge{display:inline-block;font-size:10px;font-family:var(--mono);background:#f97316;color:#fff;border-radius:3px;padding:1px 6px;margin-bottom:4px}
 
-
-/* web search toggle */
 .ws-toggle-wrap{display:flex;align-items:center;gap:7px}
 .ws-label{font-size:11px;font-family:var(--mono);color:var(--muted);white-space:nowrap}
 .ws-label.on{color:var(--accent)}
@@ -261,6 +250,26 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 .appear{animation:fin .22s ease}
 .itry{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:9px}
 .try-lbl{font-size:11px;color:var(--muted)}
+
+/* ── ONBOARDING TOUR ── */
+.tour-overlay{position:fixed;inset:0;z-index:1000;pointer-events:none}
+.tour-mask{position:fixed;inset:0;background:rgba(10,10,20,.55);z-index:1001;pointer-events:all;transition:opacity .3s}
+.tour-hole{position:fixed;z-index:1002;border-radius:8px;box-shadow:0 0 0 4px var(--accent),0 0 0 9999px rgba(10,10,20,.55);pointer-events:none;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.tour-box{position:fixed;z-index:1003;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px 14px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.18);pointer-events:all;animation:tour-pop .22s ease}
+@keyframes tour-pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.tour-step-num{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:6px;font-weight:600}
+.tour-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4}
+.tour-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.tour-desc strong{color:var(--text);font-weight:600}
+.tour-footer{display:flex;align-items:center;justify-content:space-between}
+.tour-dots{display:flex;gap:5px}
+.tour-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .2s}
+.tour-dot.active{background:var(--accent)}
+.tour-btns{display:flex;gap:7px}
+.tour-skip{font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:0}
+.tour-skip:hover{color:var(--text)}
+.tour-next{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:6px 16px;font-size:13px;font-family:var(--sans);font-weight:500;cursor:pointer}
+.tour-next:hover{background:#1e4bc4}
 </style>
 </head>
 <body>
@@ -284,7 +293,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
 
 <div class="layout">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sl">Topics explored</div>
   <div class="dim-item" data-d="Recognition" id="dim-Recognition"><div class="dim-dot"></div><span class="dim-label">Recognition</span></div>
@@ -301,10 +309,8 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
   <div id="histList"></div>
 </div>
 
-<!-- CHAT WRAPPER -->
 <div class="chat-wrapper">
 
-  <!-- CODE STRIP - collapsed by default -->
   <div class="code-strip">
     <div class="code-strip-hdr" onclick="toggleCodeStrip()">
       <div class="code-strip-title">
@@ -324,7 +330,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
     <div class="code-resize-handle" id="codeResizeHandle"></div>
   </div>
 
-  <!-- CODE PASTE MODAL -->
   <div class="code-paste-modal-overlay" id="codeModal">
     <div class="code-paste-modal">
       <h3>Paste your code snippet</h3>
@@ -338,7 +343,7 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
   </div>
 
   <div class="chat-messages" id="msgs">
-    <div class="ma appear">
+    <div class="ma appear" id="welcome-card">
       <div class="block-card">
         <div class="block-hdr" onclick="toggleBlock(this)">
           <div class="block-hdr-left"><span class="stag t-General">SecureLearn</span></div>
@@ -367,7 +372,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
     </div>
   </div>
 
-  <!-- INPUT -->
   <div class="input-area">
     <div class="chips-row" style="justify-content:flex-end">
       <div class="test-popover-wrap">
@@ -406,7 +410,6 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
   </div>
 </div>
 
-<!-- RIGHT PANEL -->
 <div class="rpanel">
   <div class="rtabs">
     <div class="rtab active" id="rtab-sources"   onclick="switchTab('sources',this)">Sources</div>
@@ -422,7 +425,7 @@ pre.cpre{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:#cdd6f4
   </div>
 </div>
 
-</div><!-- /layout -->
+</div>
 
 <script>
 var DIMS=['Recognition','Cause','Behavior','Danger','Prevention'];
@@ -435,7 +438,7 @@ var DIM_KEYWORDS={
   Danger:/\b(risk|danger|impact|harm|exploit|attacker|consequence|what.*attacker|what.*happen if|severe|critical|cvss)\b/i,
   Prevention:/\b(fix|prevent|mitigat|patch|remediat|correct|safe|solution|how.*(stop|avoid|prevent))\b/i
 };
-var S={n:0,litDims:new Set(),history:[],busy:false,srcs:[],rws:[],startTime:Date.now(),testCount:0,codeSnippet:''};
+var S={n:0,litDims:new Set(),history:[],busy:false,srcs:[],rws:[],startTime:Date.now(),testCount:0,codeSnippet:'',hasUsedCode:false};
 
 setInterval(function(){
   var s=Math.floor((Date.now()-S.startTime)/1000),m=Math.floor(s/60),sec=s%60;
@@ -464,6 +467,7 @@ function toggleCodeStrip(){
   var body=$('codeStripBody'),arrow=$('codeStripArrow');
   body.classList.toggle('open');arrow.classList.toggle('open');
   if(lbl)lbl.textContent=body.classList.contains('open')?'\u25b2 collapse':'\u25bc expand';
+  if(body.classList.contains('open'))S.hasUsedCode=true; // user voluntarily opened code strip
 }
 function openCodeModal(){$('codeModal').classList.add('open');$('codeModalTa').value=S.codeSnippet;$('codeModalTa').focus();}
 function closeCodeModal(){$('codeModal').classList.remove('open');}
@@ -474,7 +478,6 @@ function confirmCode(){
     $('codePre').textContent=code;$('codePre').style.display='block';
     $('codeEmptyMsg').style.display='none';
     $('codeStripBadge').style.display='inline';
-    /* auto-open strip to show loaded code */
     $('codeStripBody').classList.add('open');$('codeStripArrow').classList.add('open');var _lbl=document.getElementById('codeStripToggleLabel');if(_lbl)_lbl.textContent='\u25b2 collapse';
   }else{
     $('codePre').style.display='none';$('codeEmptyMsg').style.display='block';
@@ -482,18 +485,24 @@ function confirmCode(){
   }
   closeCodeModal();
 }
-/* Code return nudge after Cause/Behavior responses */
+// showCodeReturnNudge: basis = n_inspection_code predicts gains (Web ★ Strength, LLM weakness)
+// Trigger condition: only when code is loaded AND user has not yet interacted with the code strip
+// (S.hasUsedCode tracks whether user has opened/inspected code at least once)
+// Avoids repeated nudging on every Cause/Behavior response
 function showCodeReturnNudge(){
   if(!S.codeSnippet)return;
+  if(S.hasUsedCode)return; // already engaged with code, don't nudge again
   var el=document.createElement('div');el.className='code-return-nudge appear';
   el.innerHTML='<span class="crn-icon">&#128196;</span>'
-    +'<span style="flex:1">Look back at the code snippet &mdash; can you spot the issue now?</span>'
+    +'<span style="flex:1">Look back at the code snippet &mdash; can you spot where the issue occurs now?</span>'
     +'<button class="crn-btn" onclick="openCodeAndHighlight()">View code</button>'
     +'<span class="crn-dis" onclick="this.parentElement.remove()">&#215;</span>';
   $('msgs').appendChild(el);sb();
 }
 function openCodeAndHighlight(){
+  S.hasUsedCode=true; // mark as used when user clicks through
   $('codeStripBody').classList.add('open');$('codeStripArrow').classList.add('open');
+  var _lbl=document.getElementById('codeStripToggleLabel');if(_lbl)_lbl.textContent='\u25b2 collapse';
   $('codeStripBody').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
@@ -516,16 +525,22 @@ function lightDims(text){
   });
 }
 
-/* CHIPS */
+// Session-start chips: fixed definition/mechanism templates to reduce fix-first opening
+// Basis: first_stage_is_fix β=−1.278 p<.001; scaffolded inquiry (RQ3)
+var SESSION_START_CHIPS=['What is this vulnerability?','Why does this vulnerability happen?','What are the security risks?'];
 function updateChips(){
   if(!document.getElementById('tplRow'))return;
-  var unlit=DIMS.filter(function(d){return !S.litDims.has(d);});
-  var qMap={Recognition:'Where exactly is the vulnerability?',Cause:'What is this and why does it happen?',Behavior:'How does this behave at runtime?',Danger:'What are the security risks?',Prevention:'How do I fix this?'};
-  var chips=unlit.length?unlit.slice(0,3).map(function(d){return qMap[d];}):['Are there other vulnerabilities?','Explain to a beginner'];
-  $('tplRow').innerHTML=chips.map(function(c){var s=c.length>30?c.slice(0,30)+'...':c;return '<span class="tchip" onclick="sendDirect('+JSON.stringify(c)+')">'+esc(s)+'</span>';}).join('');
+  var chips;
+  if(S.n===0){
+    chips=SESSION_START_CHIPS;
+  } else {
+    var unlit=DIMS.filter(function(d){return !S.litDims.has(d);});
+    var qMap={Recognition:'Where exactly is the vulnerability?',Cause:'What is this and why does it happen?',Behavior:'How does this behave at runtime?',Danger:'What are the security risks?',Prevention:'How do I fix this?'};
+    chips=unlit.length?unlit.slice(0,3).map(function(d){return qMap[d];}):['Are there other vulnerabilities?','Explain to a beginner'];
+  }
+  $('tplRow').innerHTML=chips.map(function(c){var s=c.length>32?c.slice(0,32)+'...':c;return '<span class="tchip" onclick="sendDirect('+JSON.stringify(c)+')">'+esc(s)+'</span>';}).join('');
 }
 
-/* HISTORY - click to copy, no tags, full text tooltip */
 function addHistory(q){
   var el=document.createElement('div');el.className='hist-item';
   el.title=q;
@@ -542,29 +557,57 @@ function addHistory(q){
 
 /* NUDGES */
 function nudgeEl(html){var el=document.createElement('div');el.className='nudge appear';el.innerHTML=html;$('msgs').appendChild(el);sb();return el;}
-function causeFirstNudge(originalText){
-  var el=nudgeEl('<div class="nudge-icon">&#128161;</div><div class="nudge-body"><strong>You asked about a fix</strong> &mdash; want to understand <em>why</em> this happens first? It makes the fix stick better.<div class="nudge-acts"><button class="nbtn p" id="nudge-yes">Yes, explain why first</button><button class="nbtn" id="nudge-no">Skip to fix</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
-  $('nudge-yes').onclick=function(){el.remove();callAPI(originalText,'Cause');};
+
+// ─── MODIFIED: causeFirstNudge now accepts type ('code' | 'general') ───────
+// Fix_General-first (no code loaded): nudge about understanding root cause
+// Fix_CodeSpecific-first (code loaded): nudge about locating the issue in the code
+function causeFirstNudge(originalText, type){
+  var isCode=(type==='code');
+  var msgHtml=isCode
+    ?'<strong>You asked how to fix this code</strong> &mdash; want to first understand <em>where exactly</em> the vulnerability forms in these lines? It makes the fix more reliable.'
+    :'<strong>You asked about a fix</strong> &mdash; want to understand <em>why</em> this happens first? It makes the fix stick better.';
+  // Bubble: show original query so user remembers what they asked, plus a small note
+  var bubbleText=originalText+' \u2192 explaining cause first';
+  // API: original query as context + cause question
+  var apiQuery=isCode
+    ?(originalText+'\n\nBefore showing a fix: where exactly does the vulnerability occur in this code and why does that specific pattern cause the problem?')
+    :(originalText+'\n\nBefore showing a fix: what is this vulnerability, why does it happen, and what are its root causes?');
+  var el=nudgeEl('<div class="nudge-icon">&#128161;</div><div class="nudge-body">'+msgHtml+'<div class="nudge-acts"><button class="nbtn p" id="nudge-yes">'+(isCode?'Show me where in the code':'Yes, explain why first')+'</button><button class="nbtn" id="nudge-no">Skip to fix</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+  $('nudge-yes').onclick=function(){
+    el.remove();
+    var bubbles=document.querySelectorAll('.mu-bubble');
+    if(bubbles.length>0) bubbles[bubbles.length-1].textContent=bubbleText;
+    S.history[S.history.length-1]={role:'user',content:apiQuery};
+    callAPI(apiQuery,null);
+  };
   $('nudge-no').onclick=function(){el.remove();callAPI(originalText,'Prevention');};
 }
+
+// doneNudge: basis = Table 2
+// last_stage_is_fix β=+0.812 p=.009 → ending with prevention after understanding is positive
+// ends_with_definition β=+0.447 p=.201 → NOT significant, do not check for this
+// first_stage_is_fix β=−1.278 p<.001 → only bad when fix is the FIRST query
+// Logic: if user has covered Cause but NOT yet asked about Prevention → nudge toward fix
+//        if user has NOT covered Cause at all → nudge toward Cause first (most critical gap)
 function doneNudge(){
-  /* check Cause AND Danger — either missing triggers nudge */
-  var missing=null;
-  if(!S.litDims.has('Cause'))missing='Cause';
-  else if(!S.litDims.has('Danger'))missing='Danger';
-  if(!missing)return;
-  var qMap={Cause:'What is this vulnerability and why does it happen?',Danger:'What are the security risks if this is exploited?'};
-  nudgeEl('<div class="nudge-icon">&#9888;&#65039;</div><div class="nudge-body"><strong>Before you go</strong> &mdash; you have not covered <em>'+missing+'</em> yet. Understanding it helps knowledge stick.<div class="nudge-acts"><button class="nbtn p" onclick="this.closest(\'.nudge\').remove();sendDirect('+JSON.stringify(qMap[missing])+')">Ask about '+missing+'</button><button class="nbtn" onclick="this.closest(\'.nudge\').remove()">Finish anyway</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+  if(!S.litDims.has('Cause')){
+    // Most critical: no causal understanding at all
+    nudgeEl('<div class="nudge-icon">&#9888;&#65039;</div><div class="nudge-body"><strong>Before you go</strong> &mdash; you have not yet explored <em>why</em> this vulnerability happens. Understanding the cause helps retention and prevents similar mistakes.<div class="nudge-acts"><button class="nbtn p" onclick="this.closest(\'.nudge\').remove();sendDirect(\'What is this vulnerability and why does it happen?\')">Explore the cause</button><button class="nbtn" onclick="this.closest(\'.nudge\').remove()">Finish anyway</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+  } else if(!S.litDims.has('Prevention')){
+    // Has cause understanding but hasn't closed with a fix query — nudge toward prevention-last
+    // Basis: last_stage_is_fix β=+0.812 p=.009
+    nudgeEl('<div class="nudge-icon">&#9989;</div><div class="nudge-body"><strong>Good exploration</strong> &mdash; now that you understand the cause, asking about the fix will consolidate your learning.<div class="nudge-acts"><button class="nbtn p" onclick="this.closest(\'.nudge\').remove();sendDirect(\'How do I fix or prevent this vulnerability?\')">Ask about the fix</button><button class="nbtn" onclick="this.closest(\'.nudge\').remove()">Finish anyway</button></div></div><span class="ndis" onclick="this.parentElement.remove()">&#215;</span>');
+  }
 }
 
 function sendDirect(text){$('cin').value=text;send();}
 function send(){
   var inp=$('cin'),text=inp.value.trim();
   if(!text||S.busy)return;
+  var wasEmpty=(S.litDims.size===0);
   S.n++;updateCounter();appendUser(text);lightDims(text);addHistory(text);
   inp.value='';inp.style.height='auto';updateChips();
-  /* semantic nudge check: ask LLM if this is a fix/prevention query with no prior context */
-  if(S.litDims.size===0){
+  if(wasEmpty){
     checkIfPreventionQuery(text);
     return;
   }
@@ -572,10 +615,10 @@ function send(){
 }
 function appendUser(t){var el=document.createElement('div');el.className='mu appear';el.innerHTML='<div class="mu-bubble">'+esc(t)+'</div>';$('msgs').appendChild(el);sb();}
 
-
+// ─── MODIFIED: checkIfPreventionQuery now branches on S.codeSnippet ──────────
+// Proxy logic: code loaded → Fix_CodeSpecific-first → different nudge framing
+// No code loaded → Fix_General-first → original nudge framing
 function checkIfPreventionQuery(text){
-  /* Use LLM to classify whether this is a prevention/fix query.
-     If yes and no prior context, show the nudge. Otherwise proceed normally. */
   fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
@@ -588,13 +631,16 @@ function checkIfPreventionQuery(text){
   .then(function(data){
     var cls=((data.content&&data.content[0])?data.content[0].text:'').toLowerCase().trim();
     if(cls.indexOf('prevention')>=0){
-      causeFirstNudge(text);
+      // Use S.codeSnippet as proxy for Fix_General vs Fix_CodeSpecific
+      var fixType=S.codeSnippet?'code':'general';
+      causeFirstNudge(text,fixType);
     } else {
       callAPI(text,null);
     }
   })
   .catch(function(){callAPI(text,null);});
 }
+
 function callAPI(userText,hintDim){
   setBusy(true);var thinkEl=appendThink();
   S.history.push({role:'user',content:userText});
@@ -608,7 +654,6 @@ function callAPI(userText,hintDim){
     var parsed=parseResp(raw);
     renderResp(parsed);
     updateChips();
-    /* show code return nudge after Cause or Behavior responses */
     var dims=parsed.sections.map(function(s){return s.d;});
     if(dims.indexOf('Cause')>=0||dims.indexOf('Behavior')>=0)showCodeReturnNudge();
   })
@@ -667,11 +712,8 @@ function renderResp(p){
   p.sections.forEach(function(sec,si){
     var card=document.createElement('div');card.className='block-card';
     card.dataset.plain=sec.subs.map(function(s){return(s.title?s.title+'\n':'')+s.body;}).join('\n\n');
-
-    /* Prevention block: default COLLAPSED if Cause not yet explored */
     var preventionGated=(sec.d==='Prevention'&&!S.litDims.has('Cause'));
     var bodyOpen=!preventionGated;
-
     card.innerHTML='<div class="block-hdr" onclick="toggleBlock(this)">'
       +'<div class="block-hdr-left"><span class="stag t-'+sec.d+'">'+sec.d+'</span>'
       +(preventionGated?'<span style="font-size:11px;color:var(--muted);font-family:var(--mono)">understand Cause first</span>':'')
@@ -680,7 +722,6 @@ function renderResp(p){
       +'<button class="block-copy" onclick="event.stopPropagation();copyBlockText(this)" title="Copy">copy</button>'
       +'<span class="block-arrow'+(bodyOpen?' open':'')+'">&#9658;</span>'
       +'</div>';
-
     var body=document.createElement('div');
     body.className='block-body'+(bodyOpen?' open':'');
     sec.subs.forEach(function(sub,i){
@@ -703,6 +744,10 @@ function renderResp(p){
   });
   if(p.pills.length){
     var pr=document.createElement('div');pr.className='pills';
+    var lbl=document.createElement('span');
+    lbl.style.cssText='font-size:11px;color:var(--muted);white-space:nowrap;align-self:center;';
+    lbl.textContent='click to ask:';
+    pr.appendChild(lbl);
     p.pills.forEach(function(q){var span=document.createElement('span');span.className='pill';span.textContent=q;span.addEventListener('click',function(){sendDirect(q);});pr.appendChild(span);});
     wrapper.appendChild(pr);
   }
@@ -793,56 +838,293 @@ updateChips();
 
 /* CODE STRIP RESIZE */
 (function(){
-  var handle = document.getElementById('codeResizeHandle');
-  var body   = document.getElementById('codeStripBody');
-  var strip  = handle.parentElement;
-  var dragging = false, startY = 0, startH = 0;
-
+  var handle=document.getElementById('codeResizeHandle');
+  var body=document.getElementById('codeStripBody');
+  var dragging=false,startY=0,startH=0;
   function showHandle(){
-    if(body.classList.contains('open')) handle.classList.add('visible');
+    if(body.classList.contains('open'))handle.classList.add('visible');
     else handle.classList.remove('visible');
   }
-
-  // patch toggleCodeStrip to also show/hide handle
-  var origToggle = window.toggleCodeStrip;
-  window.toggleCodeStrip = function(){
-    origToggle();
-    showHandle();
-  };
-  // patch confirmCode
-  var origConfirm = window.confirmCode;
-  window.confirmCode = function(){
-    origConfirm();
-    showHandle();
-  };
-
-  handle.addEventListener('mousedown', function(e){
-    if(!body.classList.contains('open')) return;
-    dragging = true;
-    startY = e.clientY;
-    startH = body.offsetHeight;
-    handle.classList.add('dragging');
-    e.preventDefault();
+  var origToggle=window.toggleCodeStrip;
+  window.toggleCodeStrip=function(){origToggle();showHandle();};
+  var origConfirm=window.confirmCode;
+  window.confirmCode=function(){origConfirm();showHandle();};
+  handle.addEventListener('mousedown',function(e){
+    if(!body.classList.contains('open'))return;
+    dragging=true;startY=e.clientY;startH=body.offsetHeight;
+    handle.classList.add('dragging');e.preventDefault();
   });
-  document.addEventListener('mousemove', function(e){
-    if(!dragging) return;
-    var delta = e.clientY - startY;
-    var newH = Math.max(60, Math.min(500, startH + delta));
-    body.style.height = newH + 'px';
+  document.addEventListener('mousemove',function(e){
+    if(!dragging)return;
+    var delta=e.clientY-startY;
+    var newH=Math.max(60,Math.min(500,startH+delta));
+    body.style.height=newH+'px';
   });
-  document.addEventListener('mouseup', function(){
-    if(dragging){ dragging = false; handle.classList.remove('dragging'); }
+  document.addEventListener('mouseup',function(){
+    if(dragging){dragging=false;handle.classList.remove('dragging');}
   });
 })();
 
 function copyToInput(text){
   navigator.clipboard.writeText(text).then(function(){
-    /* brief visual flash on the input */
     var inp=document.getElementById('cin');
     inp.style.borderColor='var(--c-pre)';
     setTimeout(function(){inp.style.borderColor='';},800);
   });
 }
+
+// ── ONBOARDING TOUR ────────────────────────────────────────────────────────
+// 6 steps + 1 post-first-response step (step 6) triggered after first answer
+var TOUR_STEPS=[
+  {
+    target:'cin',
+    title:'Start asking here',
+    desc:'Type any question about a vulnerability — <strong>what it is, why it happens, how it behaves, the risks, or how to fix it</strong>. Not sure where to start? Click one of the template chips above the input to copy a ready-made question.',
+    placement:'top'
+  },
+  {
+    target:'codeStripHdr',
+    title:'Load your code snippet',
+    desc:'Click <strong>Paste / Edit</strong> to upload the code you\'re studying. Once loaded, every response will reference your specific code — line numbers, variable names, the actual flaw.',
+    placement:'bottom'
+  },
+  {
+    target:'tab-sources',
+    title:'Sources & Real-world cases',
+    desc:'After each query, <strong>Sources</strong> auto-populates with official references (OWASP, MITRE, CVE). Switch to <strong>Real-world</strong> for real exploit write-ups and CVE cases linked to the vulnerability.',
+    placement:'left'
+  },
+  {
+    target:'wsToggle',
+    title:'Web search toggle',
+    desc:'<strong>Off</strong> (default): answers come from the model\'s training knowledge — fast and structured. <strong>On</strong>: the model searches the web and summarises live resources, useful for recent CVEs or unfamiliar topics.',
+    placement:'bottom'
+  },
+  {
+    target:'sidebar-dims',
+    title:'Topics explored + History',
+    desc:'The left panel tracks <strong>which dimensions</strong> you\'ve covered — Recognition, Cause, Behavior, Danger, Prevention. Dots light up as you learn. Below that, <strong>History</strong> logs every query; click any entry to copy it and reuse or modify it.',
+    placement:'right'
+  },
+  {
+    target:'testChipBtn',
+    title:'Test & Reflect — use this often',
+    desc:'Click here <strong>any time</strong> to generate a quiz question based on your conversation so far. Under <strong>Reflect</strong>, write an explanation in your own words and get instant feedback. Both are proven to strengthen retention.',
+    placement:'top'
+  },
+  {
+    target:'dbtn',
+    title:'Done? Let us check first',
+    desc:'When you feel ready to finish, click <strong>I\'m done</strong>. The system will check whether you\'ve covered the key dimensions — if anything important is missing, it\'ll suggest one last question before you go.',
+    placement:'top'
+  }
+];
+
+// Step shown after receiving the first response
+var TOUR_POST_RESPONSE={
+  target:'first-response-hint',
+  title:'Expand or collapse any section',
+  desc:'Each response is organised into labelled sections. Click a section header to collapse it, or click any sub-heading to expand just that part. Use <strong>copy</strong> to save a block to your clipboard.',
+  placement:'top-left'
+};
+
+var tourActive=false, tourStep=0, tourPostShown=false;
+
+function tourGetRect(targetId){
+  var el=document.getElementById(targetId);
+  if(!el) return null;
+  var r=el.getBoundingClientRect();
+  return {top:r.top,left:r.left,width:r.width,height:r.height};
+}
+
+function tourPlaceBox(box, rect, placement){
+  var pad=14, vw=window.innerWidth, vh=window.innerHeight;
+  var bw=300, bh=box.offsetHeight||180;
+  var top,left;
+  if(placement==='bottom'){
+    top=rect.top+rect.height+pad;
+    left=rect.left+rect.width/2-bw/2;
+  } else if(placement==='top'){
+    top=rect.top-bh-pad;
+    left=rect.left+rect.width/2-bw/2;
+  } else if(placement==='left'){
+    top=rect.top+rect.height/2-bh/2;
+    left=rect.left-bw-pad;
+  } else if(placement==='right'){
+    top=rect.top+rect.height/2-bh/2;
+    left=rect.left+rect.width+pad;
+  } else if(placement==='top-left'){
+    top=rect.top-bh-pad;
+    left=rect.left;
+  } else {
+    top=rect.top+rect.height+pad;
+    left=rect.left;
+  }
+  // Clamp to viewport
+  left=Math.max(10,Math.min(left,vw-bw-10));
+  top=Math.max(10,Math.min(top,vh-bh-10));
+  box.style.top=top+'px';
+  box.style.left=left+'px';
+}
+
+function tourRender(stepIndex, steps){
+  // Remove existing tour elements
+  ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.remove();
+  });
+  if(stepIndex>=steps.length){tourEnd();return;}
+
+  var step=steps[stepIndex];
+  var rect=tourGetRect(step.target);
+  if(!rect){tourNext();return;} // skip if element not found
+
+  // Mask
+  var mask=document.createElement('div');
+  mask.id='tour-mask-el';mask.className='tour-mask';
+  mask.style.cssText='position:fixed;inset:0;background:transparent;z-index:1001;';
+  mask.onclick=function(){};
+  document.body.appendChild(mask);
+
+  // Highlight hole
+  var hole=document.createElement('div');
+  hole.id='tour-hole';hole.className='tour-hole';
+  var pad=6;
+  hole.style.top=(rect.top-pad)+'px';
+  hole.style.left=(rect.left-pad)+'px';
+  hole.style.width=(rect.width+pad*2)+'px';
+  hole.style.height=(rect.height+pad*2)+'px';
+  document.body.appendChild(hole);
+
+  // Box
+  var box=document.createElement('div');
+  box.id='tour-box';box.className='tour-box';
+
+  var dotsHtml=steps.map(function(_,i){
+    return '<div class="tour-dot'+(i===stepIndex?' active':'')+'"></div>';
+  }).join('');
+
+  var isLast=(stepIndex===steps.length-1);
+  box.innerHTML=
+    '<div class="tour-step-num">Step '+(stepIndex+1)+' of '+steps.length+'</div>'+
+    '<div class="tour-title">'+step.title+'</div>'+
+    '<div class="tour-desc">'+step.desc+'</div>'+
+    '<div class="tour-footer">'+
+      '<div class="tour-dots">'+dotsHtml+'</div>'+
+      '<div class="tour-btns">'+
+        '<button class="tour-skip" onclick="tourEnd()">Skip tour</button>'+
+        '<button class="tour-next" onclick="tourNext()">'+(isLast?'Done ✓':'Next →')+'</button>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(box);
+
+  // Position box after appending so offsetHeight is available
+  requestAnimationFrame(function(){tourPlaceBox(box,rect,step.placement);});
+}
+
+function tourNext(){
+  tourStep++;
+  tourRender(tourStep, TOUR_STEPS);
+}
+
+function tourEnd(){
+  ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.remove();
+  });
+  tourActive=false;
+  // Store in sessionStorage so tour doesn't re-show on same session
+  try{sessionStorage.setItem('sl_tour_done','1');}catch(e){}
+}
+
+function tourStart(){
+  if(tourActive)return;
+  try{if(sessionStorage.getItem('sl_tour_done'))return;}catch(e){}
+  tourActive=true;
+  tourStep=0;
+  // Give DOM a moment to render fully
+  setTimeout(function(){tourRender(0, TOUR_STEPS);},400);
+}
+
+// Post-first-response tour step: show after first API response
+function tourShowPostResponse(){
+  if(tourPostShown)return;
+  tourPostShown=true;
+  setTimeout(function(){
+    // Skip welcome card, find first real API response block-hdr
+    var asMsgs=document.querySelectorAll('#msgs .ma:not(#welcome-card)');
+    var targetHdr=null;
+    for(var i=0;i<asMsgs.length;i++){
+      var hdr=asMsgs[i].querySelector('.block-hdr');
+      if(hdr){targetHdr=hdr;break;}
+    }
+    if(!targetHdr)return;
+    targetHdr.id='first-response-hint';
+
+    var rect=targetHdr.getBoundingClientRect();
+    if(!rect.width)return;
+
+    ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.remove();
+    });
+
+    // Mask
+    var mask=document.createElement('div');
+    mask.id='tour-mask-el';mask.className='tour-mask';
+    mask.style.cssText='position:fixed;inset:0;background:rgba(10,10,20,.55);z-index:1001;pointer-events:all;';
+    document.body.appendChild(mask);
+
+    // Hole — exactly the header row height
+    var hole=document.createElement('div');
+    hole.id='tour-hole';hole.className='tour-hole';
+    var pad=4;
+    hole.style.top=(rect.top-pad)+'px';
+    hole.style.left=(rect.left-pad)+'px';
+    hole.style.width=(rect.width+pad*2)+'px';
+    hole.style.height=(rect.height+pad*2)+'px';
+    document.body.appendChild(hole);
+
+    var box=document.createElement('div');
+    box.id='tour-box';box.className='tour-box';
+    box.innerHTML=
+      '<div class="tour-step-num">Quick tip</div>'+
+      '<div class="tour-title">'+TOUR_POST_RESPONSE.title+'</div>'+
+      '<div class="tour-desc">'+TOUR_POST_RESPONSE.desc+'</div>'+
+      '<div class="tour-footer"><div></div>'+
+        '<div class="tour-btns">'+
+          '<button class="tour-next" onclick="tourEnd()">Got it &#10003;</button>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(box);
+    requestAnimationFrame(function(){
+      tourPlaceBox(box,{top:rect.top,left:rect.left,width:rect.width,height:rect.height},TOUR_POST_RESPONSE.placement);
+    });
+  },600);
+}
+
+// Add IDs needed by tour targeting to existing elements
+document.addEventListener('DOMContentLoaded',function(){
+  var hdr=document.querySelector('.code-strip-hdr');
+  if(hdr)hdr.id='codeStripHdr';
+  var sbar=document.querySelector('.sidebar');
+  if(sbar)sbar.id='sidebar-dims';
+  var dbtn=document.querySelector('.dbtn');
+  if(dbtn)dbtn.id='dbtn';
+});
+
+// Start tour on load
+window.addEventListener('load', tourStart);
+
+// Hook into callAPI to trigger post-response tip after first answer
+var _origCallAPI=callAPI;
+callAPI=function(userText,hintDim){
+  var isFirst=(S.n===1&&!tourPostShown);
+  _origCallAPI.apply(this,arguments);
+  if(isFirst){
+    // Wait for response to render then show tip
+    var check=setInterval(function(){
+      if(!S.busy){clearInterval(check);tourShowPostResponse();}
+    },300);
+  }
+};
 </script>
 </body>
 </html>
