@@ -21,36 +21,21 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;font-size:14px;line-height:1.6}
-
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:46px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
 .logo{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:-.3px}
-.topic-pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-size:11px;color:var(--muted);font-family:var(--mono);margin-left:10px}
 .qctr{font-size:11px;color:var(--muted);font-family:var(--mono)}
 .layout{display:flex;flex:1;min-height:0}
-
-/* SIDEBAR */
 .sidebar{width:186px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:14px 12px;display:flex;flex-direction:column;overflow-y:auto}
-.sidebar-right{
-  width:186px;
-  flex-shrink:0;
-  background:var(--surface);
-  border-left:1px solid var(--border);
-}
-
+.sidebar-right{width:186px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);}
 .sl{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
-.sdiv{border:none;border-top:1px solid var(--border);margin:10px 0}
-.smeta{font-size:11px;color:var(--muted);font-family:var(--mono);line-height:2}
-.timer-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:2px}
-.timer{font-size:15px;font-family:var(--mono);color:var(--accent);font-weight:600;margin-bottom:4px}
-/* response layout: chat area + sections nav side by side */
 .resp-row{display:flex;gap:12px;align-items:flex-start;max-width:100%}
-.resp-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.resp-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px}
 .resp-nav{width:140px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;position:sticky;top:10px}
 .resp-nav-title{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px}
 .resp-nav-item{display:block;font-size:12px;color:var(--muted);padding:3px 0;cursor:pointer;border-left:2px solid transparent;padding-left:7px;transition:color .12s,border-color .12s;line-height:1.4}
 .resp-nav-item:hover{color:var(--text);border-left-color:var(--accent)}
-/* section card: title+summary visible, details collapsible */
-.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;border-left:3px solid transparent;transition:border-left-color .15s}
+.sec-card.is-open{border-left-color:var(--accent)}
 .sec-summary{padding:11px 14px;cursor:pointer;user-select:none}
 .sec-summary:hover{background:var(--surface2)}
 .sec-title{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:3px}
@@ -58,30 +43,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .sec-toggle{font-size:12px;color:var(--accent);margin-top:5px;display:inline-block}
 .sec-details{display:none;border-top:1px solid var(--border)}
 .sec-details.open{display:block}
-
 .hist-item{font-size:11.5px;color:var(--muted);padding:5px 7px;border-radius:5px;cursor:pointer;line-height:1.4;border-left:2px solid var(--border);margin-bottom:3px;transition:background .12s;position:relative}
 .hist-item:hover{background:var(--surface2);color:var(--text)}
 .hist-item:hover::after{content:'click to copy';position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10px;font-family:var(--mono);color:var(--accent);background:var(--accent-l);padding:1px 5px;border-radius:3px}
-
-/* CHAT */
 .chat-wrapper{flex:1;display:flex;flex-direction:column;min-width:0}
-
-.code-paste-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center}
-.code-paste-modal-overlay.open{display:flex}
-.code-paste-modal{background:var(--surface);border-radius:12px;padding:20px;width:540px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.code-paste-modal h3{font-size:15px;margin-bottom:4px}
-.code-paste-modal p{font-size:12.5px;color:var(--muted);margin-bottom:12px}
-.code-paste-modal textarea{width:100%;height:200px;font-family:var(--mono);font-size:12px;border:1.5px solid var(--border);border-radius:8px;padding:10px;background:#1a1a1a;color:#cdd6f4;resize:none;outline:none}
-.code-paste-modal textarea:focus{border-color:var(--accent)}
-.code-paste-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-.btn-cancel{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--sans)}
-.btn-ok{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:13px;cursor:pointer;font-family:var(--sans)}
-.btn-ok:hover{background:#1e4bc4}
-
-/* ── GAP MODAL ── */
-
 .chat-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
-
 .nudge{background:var(--nudge-bg);border:1px solid var(--nudge-bd);border-radius:8px;padding:11px 13px;font-size:13px;display:flex;align-items:flex-start;gap:9px;animation:fin .25s ease}
 .nudge-icon{font-size:15px;flex-shrink:0;margin-top:1px}
 .nudge-body{flex:1}
@@ -92,13 +58,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .nbtn.p{background:var(--accent);color:#fff;border-color:var(--accent)}
 .nbtn.p:hover{background:#1e4bc4}
 .ndis{color:var(--muted);font-size:17px;cursor:pointer;line-height:1;flex-shrink:0}
-
 .mu{display:flex;justify-content:flex-end}
 .mu-bubble{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;padding:9px 14px;max-width:68%;font-size:13.5px;line-height:1.55}
 .ma{display:flex;flex-direction:column;gap:5px;max-width:92%}
-
 .block-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.causal{background:#fff8f0;border:1px solid #fed7aa;border-radius:6px;padding:7px 10px;font-size:12.5px;margin-top:8px;color:#78350f}
 .sec-details-body{padding:10px 14px 14px;font-size:13.5px;line-height:1.72}
 .sec-details-body code{font-family:var(--mono);font-size:12px;background:var(--surface2);border-radius:3px;padding:1px 4px}
 .sec-details-body ul{margin:5px 0 0 17px}
@@ -106,26 +69,30 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .sec-details-body p{margin-bottom:6px}
 .sec-details-body p:last-child{margin-bottom:0}
 .sec-sub+.sec-sub{border-top:1px solid var(--border)}
+.subsec-group{padding:8px 14px 12px;display:flex;flex-direction:column;gap:6px}
+.subsec-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-left:12px;border-left:3px solid var(--accent-l)}
+.subsec-summary{padding:9px 13px;cursor:pointer;user-select:none;background:var(--surface2)}
+.subsec-summary:hover{background:#e8e6e0}
+.subsec-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.subsec-blurb{font-size:12.5px;color:var(--muted);line-height:1.45}
+.subsec-toggle{font-size:11.5px;color:var(--accent);margin-top:4px;display:inline-block}
+.subsec-details{display:none;border-top:1px solid var(--border)}
+.subsec-details.open{display:block}
+.resp-nav-child{display:block;font-size:11px;color:var(--muted);padding:2px 0 2px 14px;cursor:pointer;border-left:2px solid transparent;margin-left:7px;transition:color .12s,border-color .12s;line-height:1.4}
+.resp-nav-child:hover{color:var(--text);border-left-color:var(--accent)}
 .src-ref{display:inline-block;font-size:10px;font-family:var(--mono);background:var(--accent-l);color:var(--accent);border-radius:3px;padding:0 4px;cursor:pointer;font-weight:600;vertical-align:middle;margin:0 1px}
 .src-ref:hover{background:#dce5fd}
 .pills{display:flex;gap:6px;flex-wrap:wrap}
 .pill{background:var(--accent-l);border:1px solid #c7d4f9;border-radius:20px;padding:4px 11px;font-size:12px;color:var(--accent);cursor:pointer;font-weight:500;transition:background .15s;user-select:none}
 .pill:hover{background:#dce5fd}
-
 .thinking{display:flex;align-items:center;gap:4px;padding:12px 14px;color:var(--muted);font-size:13px}
 .thinking span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
 .thinking span:nth-child(2){animation-delay:.2s}
 .thinking span:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
-
 .input-area{flex-shrink:0;border-top:1px solid var(--border);background:var(--surface);padding:10px 18px 12px}
-.chips-row{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap;align-items:center}
-.tpl-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:2px;white-space:nowrap}
-.tchip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all .15s;user-select:none}
-.tchip:hover{background:var(--accent-l);color:var(--accent);border-color:#c7d4f9}
 .test-chip{background:#fff;border:1.5px solid var(--accent);border-radius:20px;padding:3px 11px;font-size:12px;color:var(--accent);cursor:pointer;font-family:var(--sans);font-weight:600;transition:all .15s;user-select:none;white-space:nowrap}
 .test-chip:hover{background:var(--accent-l)}
-
 .test-popover-wrap{position:relative;flex-shrink:0}
 .test-popover{position:absolute;bottom:calc(100% + 8px);right:0;width:320px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:200;display:none;overflow:hidden}
 .test-popover.open{display:block;animation:pop-in .18s ease}
@@ -163,10 +130,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .se-clear:hover{background:#dcfce7}
 .se-fb{margin-top:7px;padding:7px 9px;background:#dcfce7;border:1px solid #86efac;border-radius:6px;font-size:12px;color:#166534;display:none;line-height:1.5}
 .se-fb.show{display:block}
-
 .irow{display:flex;gap:8px;align-items:flex-end}
-
-/* ── AUTOCOMPLETE ── */
 .input-wrap{flex:1;position:relative;}
 .cinput{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:8px 12px;font-family:var(--sans);font-size:13.5px;outline:none;background:var(--surface);transition:border-color .15s;resize:none;min-height:40px;max-height:110px;position:relative;z-index:1;}
 .cinput:focus{border-color:var(--accent)}
@@ -180,15 +144,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 .suggest-item:hover,.suggest-item.active{background:var(--accent-l);color:var(--accent);}
 .suggest-item em{font-style:normal;font-weight:600;color:var(--accent);}
 .suggest-hint{font-size:10px;font-family:var(--mono);color:var(--muted);padding:5px 13px 6px;border-top:1px solid var(--border);background:var(--surface2);}
-
 .sbtn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--sans);font-size:13.5px;font-weight:500;cursor:pointer;height:40px;white-space:nowrap}
 .sbtn:hover{background:#1e4bc4}
 .sbtn:disabled{background:#aab8f0;cursor:default}
-
 @keyframes fin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .appear{animation:fin .22s ease}
 
-/* ── ONBOARDING TOUR ── */
+/* ── intro card: always-open, borderless feel ── */
+.intro-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.intro-body{padding:12px 14px 14px;font-size:13.5px;line-height:1.72}
+.intro-body p{margin-bottom:6px}
+.intro-body p:last-child{margin-bottom:0}
+
 .tour-mask{position:fixed;inset:0;background:rgba(10,10,20,.55);z-index:1001;pointer-events:all;transition:opacity .3s}
 .tour-hole{position:fixed;z-index:1002;border-radius:8px;box-shadow:0 0 0 4px var(--accent),0 0 0 9999px rgba(10,10,20,.55);pointer-events:none;transition:all .35s cubic-bezier(.4,0,.2,1)}
 .tour-box{position:fixed;z-index:1003;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px 14px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.18);pointer-events:all;animation:tour-pop .22s ease}
@@ -218,17 +185,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </div>
 
 <div class="layout">
-
-<!-- SIDEBAR: query history only -->
 <div class="sidebar">
   <div class="sl">Query history <span style="font-size:9px;font-weight:400;color:var(--muted)">(click to copy)</span></div>
   <div id="histList"></div>
 </div>
 
 <div class="chat-wrapper">
-
-  <div class="chat-messages" id="msgs">
-  </div>
+  <div class="chat-messages" id="msgs"></div>
   <div class="input-area">
     <div style="display:flex;justify-content:flex-end;margin-bottom:9px">
       <div class="test-popover-wrap">
@@ -236,11 +199,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
         <div class="test-popover" id="testPopover">
           <div class="popover-tabs">
             <div class="ptab active" id="ptab-mcq" onclick="switchPTab('mcq',this)">Quiz</div>
-            <div class="ptab"        id="ptab-se"  onclick="switchPTab('se',this)">Reflect</div>
+            <div class="ptab" id="ptab-se" onclick="switchPTab('se',this)">Reflect</div>
           </div>
           <div class="ptab-content active" id="pcontent-mcq">
             <button class="gen-btn" id="genBtn" onclick="generateMCQ()">Generate a question</button>
-            <div id="mcqArea"><p style="font-size:12px;color:var(--muted);line-height:1.6">Questions are based on your conversation so far. Generate as many as you like.</p></div>
+            <div id="mcqArea"><p style="font-size:12px;color:var(--muted);line-height:1.6">Questions are based on your conversation so far.</p></div>
           </div>
           <div class="ptab-content" id="pcontent-se">
             <div class="se-card">
@@ -272,12 +235,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex
 </div>
 
 <div class="sidebar-right"></div>
-
 </div>
 
-
 <script>
-// ─── CONSTANTS ───────────────────────────────────────────────────────────────
+// ─── CONSTANTS ────────────────────────────────────────────────────────────────
 var DIMS=['Recognition','Cause','Behavior','Danger','Prevention'];
 var DIM_KEYWORDS={
   Recognition:/\b(where|which line|which function|locate|find.*code|point.*out|in the code|line \d)\b/i,
@@ -286,27 +247,15 @@ var DIM_KEYWORDS={
   Danger:/\b(risk|danger|impact|harm|exploit|attacker|consequence|what.*attacker|what.*happen if|severe|critical|cvss)\b/i,
   Prevention:/\b(fix|prevent|mitigat|patch|remediat|correct|safe|solution|how.*(stop|avoid|prevent))\b/i
 };
+var DIM_INJECT_PRIORITY=['Cause','Behavior','Danger','Recognition','Prevention'];
+var KNOWN_DIMS=['Cause','Behavior','Danger','Recognition','Prevention'];
 
-// S4: Priority order for dimension injection (reasoning dims first, Prevention last)
-// Basis: reasoning dimensions (Cause, Behavior, Danger) have highest gain gaps in Study 1
-var DIM_INJECT_PRIORITY = ['Cause','Behavior','Danger','Recognition','Prevention'];
-
-// Session state
 var S={
-  n:0,
-  litDims:new Set(),
-  deepDims:new Set(),
-  history:[],
-  busy:false,
-  srcs:[],
-  rws:[],
-  startTime:Date.now(),
-  testCount:0,
-  codeSnippet:'',
-  vulnStarted:false   // true after first vulnerability-related query
+  n:0,litDims:new Set(),deepDims:new Set(),history:[],busy:false,
+  startTime:Date.now(),testCount:0,codeSnippet:'',vulnStarted:false
 };
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function $(id){return document.getElementById(id);}
 function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
@@ -314,201 +263,131 @@ function sb(){var c=$('msgs');setTimeout(function(){c.scrollTop=c.scrollHeight;}
 function setBusy(v){S.busy=v;$('sbtn').disabled=v;}
 function updateCounter(){var n=S.n;$('qctr').textContent=n+(n===1?' query':' queries');}
 
-// ─── QUERY ANALYSIS ──────────────────────────────────────────────────────────
+// ─── QUERY ANALYSIS ───────────────────────────────────────────────────────────
 function isFixQuery(text){
   return /\b(fix|prevent|mitigate|patch|solve|how to fix|how do i fix|remediat)\b/i.test(text);
 }
-
-// Detects if query is about a named vulnerability or vulnerability concept
-// (not generic DB/language knowledge like "what is DROP TABLE" or "what is SQL")
 var VULN_PATTERN=/\b(xss|cross.site.script|sql.inject|sqli|buffer.overflow|overflow|heap.spray|format.string|path.travers|directory.travers|lfi|rfi|ssrf|csrf|xxe|deseri[az]|prototype.pollution|race.condition|use.after.free|null.dereference|integer.overflow|command.inject|code.inject|injection|vulnerability|vuln|exploit|attack|malware|payload|zero.day|cve-\d|rce|remote.code|privilege.escal|auth.bypass|open.redirect|clickjack|idor|broken.access|insecure)/i;
-
 function isVulnRelated(text){
-  // Matches explicit vuln names/concepts OR vulnerability dimension keywords
-  return VULN_PATTERN.test(text) || DIMS.some(function(d){
-    return DIM_KEYWORDS[d]&&DIM_KEYWORDS[d].test(text);
-  });
+  return VULN_PATTERN.test(text)||DIMS.some(function(d){return DIM_KEYWORDS[d]&&DIM_KEYWORDS[d].test(text);});
 }
 
-// ─── S1: FIX-FIRST QUERY ENHANCEMENT ────────────────────────────────────────
-function enhanceFixQuery(text){
-  return text + '\n\n[SYSTEM INSTRUCTION — NOT VISIBLE TO USER]\n'
-    + 'The user asked about a fix as their first vulnerability question. '
-    + 'To maximise learning, structure your response in this order:\n'
-    + '1. [SECTION:Cause] — explain the root cause first\n'
-    + '2. [SECTION:Behavior] — explain runtime/execution behavior\n'
-    + '3. [SECTION:Prevention] — then provide the fix/mitigation\n'
-    + 'Do NOT show Prevention before Cause and Behavior. This ordering is mandatory.';
-}
+// ─── S4: DIMENSION INJECTION (决策交给 LLM，前端只维护已覆盖状态) ──────────────
 
-// ─── S4: PER-ROUND DIMENSION INJECTION ───────────────────────────────────────
-// Only injects when query is vuln-related. Uses natural affinity ordering.
-// For generic vuln queries (no specific dim), defaults to Cause affinity.
-var DIM_AFFINITY={
-  Cause:      'Behavior',
-  Behavior:   'Danger',
-  Danger:     'Prevention',
-  Prevention: 'Cause',
-  Recognition:'Cause'
-};
+// ─── DIM TRACKING ─────────────────────────────────────────────────────────────
+function markDimL1(d){S.litDims.add(d);}
+function markDimL2(d){S.litDims.add(d);S.deepDims.add(d);}
+function lightDimFromResponse(d){markDimL1(d);}
 
-function getInjectDim(visibleText){
-  // Only inject for vuln-related queries
-  if(!isVulnRelated(visibleText)) return null;
-
-  // State C: all dims deeply covered → stop
-  if(DIMS.every(function(d){return S.deepDims.has(d);})) return null;
-
-  // Detect which dimension the query is about (if any)
-  var queryDim=null;
-  DIMS.forEach(function(d){
-    if(DIM_KEYWORDS[d]&&DIM_KEYWORDS[d].test(visibleText)) queryDim=d;
-  });
-
-  // If no specific dim detected (e.g. "what is XSS", "give me an example"),
-  // treat as Cause-like and use Behavior as affinity
-  var affinity=queryDim ? DIM_AFFINITY[queryDim] : 'Behavior';
-
-  // Build candidate list: affinity first, then priority order
-  // Exclude the dim the user is already asking about
-  var ordered=[affinity].concat(
-    DIM_INJECT_PRIORITY.filter(function(d){return d!==affinity&&d!==queryDim;})
-  ).filter(Boolean);
-
-  // State A: dim never appeared yet
-  var candidate=ordered.find(function(d){return !S.litDims.has(d);});
-  // State B: appeared but not expanded
-  if(!candidate){
-    candidate=ordered.find(function(d){return S.litDims.has(d)&&!S.deepDims.has(d);});
-  }
-  return candidate||null;
-}
-
-// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
-function lightDims(text){
-  DIMS.forEach(function(d){
-    if(DIM_KEYWORDS[d] && DIM_KEYWORDS[d].test(text)){
-      S.litDims.add(d);
-      var item=$('dim-'+d);
-      if(item) item.className='dim-item lit';
-    }
-  });
-}
-
-// Level 1: dim appeared in response (user saw summary)
-function markDimL1(dimName){
-  S.litDims.add(dimName);
-}
-
-// Level 2: user expanded the section (actual reading behaviour)
-function markDimL2(dimName){
-  S.litDims.add(dimName);
-  S.deepDims.add(dimName);
-}
-
-// keep old name as alias for response-render calls (Level 1)
-function lightDimFromResponse(dimName){ markDimL1(dimName); }
-
-// ─── HISTORY ─────────────────────────────────────────────────────────────────
+// ─── HISTORY ──────────────────────────────────────────────────────────────────
 function addHistory(q){
   var el=document.createElement('div');
-  el.className='hist-item';
-  el.title=q;
+  el.className='hist-item';el.title=q;
   el.textContent=q.length>42?q.slice(0,42)+'\u2026':q;
   el.addEventListener('click',function(){
     navigator.clipboard.writeText(q).then(function(){
-      var saved=el.textContent;
-      el.textContent='Copied!';el.style.color='var(--c-pre)';
+      var saved=el.textContent;el.textContent='Copied!';el.style.color='var(--c-pre)';
       setTimeout(function(){el.textContent=saved;el.style.color='';},1000);
     });
   });
   $('histList').prepend(el);
 }
 
-// ─── CHIPS / SUGGESTIONS ─────────────────────────────────────────────────────
-
-// ─── NUDGES ──────────────────────────────────────────────────────────────────
+// ─── NUDGES ───────────────────────────────────────────────────────────────────
 function nudgeEl(html){
-  var el=document.createElement('div');
-  el.className='nudge appear';
-  el.innerHTML=html;
-  $('msgs').appendChild(el);
-  sb();
-  return el;
+  var el=document.createElement('div');el.className='nudge appear';el.innerHTML=html;
+  $('msgs').appendChild(el);sb();return el;
 }
-
-// ─── GAP MODAL ────────────────────────────────────────────────────────────────
-// Shown when user clicks "I'm done" but hasn't covered Cause or Prevention.
-// Basis: ended_without_reasoning OR=3.2 p<.01
-
-
-
 
 // ─── SEND ─────────────────────────────────────────────────────────────────────
 function sendDirect(text){$('cin').value=text;send();}
-
 function send(){
   var inp=$('cin'),text=inp.value.trim();
-  if(!text||S.busy) return;
-
-  S.n++;
-  updateCounter();
-  appendUser(text);
-  inp.value='';
-  inp.style.height='auto';
-  acHide();
-  _acLastText='';
-
-  // Check if this is a vulnerability-related query
+  if(!text||S.busy)return;
+  S.n++;updateCounter();appendUser(text);
+  inp.value='';inp.style.height='auto';acHide();_acLastText='';
   var isVulnQuery=isVulnRelated(text);
-
-  // S1: Fix-first silent enhancement — only on the FIRST vuln-related fix query
   var apiText=text;
-  if(!S.vulnStarted && isVulnQuery && isFixQuery(text)){
-    apiText=enhanceFixQuery(text);
+  if(!S.vulnStarted&&isVulnQuery&&isFixQuery(text)){
+    apiText=text+'\n\n[INSTRUCTION: explain Cause and Behavior before Prevention]';
   }
-
-  // Mark vuln session as started on first vuln-related query
-  if(isVulnQuery) S.vulnStarted=true;
-
-  // S4: determine inject dim via system prompt (not query text modification)
-  var injectDim=getInjectDim(text);
-
-  callAPI(apiText, text, injectDim);
+  if(isVulnQuery)S.vulnStarted=true;
+  // 注入决策完全交给 LLM，前端只传已覆盖的维度状态
+  callAPI(apiText,text,isVulnQuery);
 }
 
 function appendUser(t){
-  var el=document.createElement('div');
-  el.className='mu appear';
+  var el=document.createElement('div');el.className='mu appear';
   el.innerHTML='<div class="mu-bubble">'+esc(t)+'</div>';
-  $('msgs').appendChild(el);
-  sb();
+  $('msgs').appendChild(el);sb();
 }
 
 // ─── API CALL ─────────────────────────────────────────────────────────────────
-// apiText: text sent to LLM (S1 enhanced if applicable)
-// visibleText: original user query (history display only)
-// injectDim: S4 dimension name to inject via system prompt (or null)
-function callAPI(apiText, visibleText, injectDim){
-  addHistory(visibleText || apiText);
+function callAPI(apiText,visibleText,isVulnQuery){
+  addHistory(visibleText||apiText);
   setBusy(true);
   var thinkEl=appendThink();
 
   var busyTimer=setTimeout(function(){
     if(S.busy){setBusy(false);thinkEl.remove();appendErr('Response timed out. Please try again.');}
-  },30000);
+  },60000);
 
   S.history.push({role:'user',content:apiText});
-  var isFixQ=isFixQuery(visibleText||apiText);
+
+  // 把当前已覆盖的维度状态告诉模型，让它自己决定要不要注入
+  var coveredDims=DIM_INJECT_PRIORITY.filter(function(d){return S.litDims.has(d);});
+  var uncoveredDims=DIM_INJECT_PRIORITY.filter(function(d){return !S.deepDims.has(d);});
+  var dimStateHint='Dimensions the user has already touched (light): ['+(coveredDims.join(', ')||'none')+'].\n'
+    +'Dimensions not yet deeply explored: ['+(uncoveredDims.join(', ')||'none')+'].';
+
+  var sys;
+  if(isVulnQuery){
+    sys='You are an educational assistant for software vulnerability learning.\n'
+      +(S.codeSnippet?'\nThe user has provided this code snippet:\n```\n'+S.codeSnippet+'\n```\nReference specific lines when relevant.\n':'')
+      +'\nAnswer the user\'s question thoroughly. Include the underlying mechanism, concrete code examples, edge cases, and practical implications. Do not truncate.\n\n'
+      +'TONE & FLOW RULES (important):\n'
+      +'- Write like a knowledgeable teacher speaking naturally, not like a reference manual.\n'
+      +'- The FIRST section must open with 1-2 sentences that directly acknowledge what the user asked and set up the answer — like a conversational introduction before diving in.\n'
+      +'- Each section\'s content should flow as coherent prose or prose + code. Use transitional phrases between ideas (e.g. "This matters because...", "To understand why...", "In practice...").\n'
+      +'- Avoid starting sections abruptly with a list or code block — always lead with a sentence of context first.\n\n'
+      +'DIMENSION INJECTION RULES:\n'
+      +dimStateHint+'\n'
+      +'After answering the question, decide whether to proactively add one extra section covering a dimension the user has not yet explored.\n'
+      +'ONLY inject if the current question is directly about a specific vulnerability (its cause, behavior, dangers, code, or fix) — NOT if the user is asking about meta-topics like CVE systems, security tools, standards, databases, or general security concepts.\n'
+      +'IMPORTANT: Do NOT inject a dimension that is already the main focus of your answer to the current question. For example, if the user asked how to recognize or locate the vulnerability in code, do not inject Recognition — the answer already covers it.\n'
+      +'If you decide to inject, pick the most relevant unexplored dimension from the list above, write a full section for it, and set "inject_dim" to its name.\n'
+      +'If you decide NOT to inject (wrong context, dimension already covered by this answer, or all dims explored), set "inject_dim" to null.\n\n'
+      +'Output your answer as a JSON object only — no markdown fences, no explanation outside the JSON. Schema:\n'
+      +'{\n'
+      +'  "inject_dim": "Cause" | "Behavior" | "Danger" | "Recognition" | "Prevention" | null,\n'
+      +'  "sections": [\n'
+      +'    {\n'
+      +'      "label": "natural heading — do NOT force dimension names unless that is genuinely what the section covers",\n'
+      +'      "title": "same as label or slightly expanded",\n'
+      +'      "content": "full explanation — thorough, with examples. First section opens with a 1-2 sentence conversational intro.",\n'
+      +'      "summary": "2-3 sentences summarising this section",\n'
+      +'      "subsections": [\n'
+      +'        { "label": "variant name", "title": "short title", "content": "full content", "summary": "2-3 sentence summary" }\n'
+      +'      ]\n'
+      +'    }\n'
+      +'  ],\n'
+      +'  "pills": ["follow-up question 1", "follow-up question 2", "follow-up question 3"]\n'
+      +'}\n'
+      +'Rules:\n'
+      +'- If inject_dim is set, the LAST section in sections[] must be the injected dimension section, labelled with the dimension name.\n'
+      +'- Split into as many or as few sections as the content naturally requires.\n'
+      +'- subsections: only use when comparing distinct variants/types. Leave as [] otherwise.\n'
+      +'- Write real, specific summaries — not placeholder text.\n'
+      +'- content must be thorough — same depth as a normal chat response.';
+  } else {
+    sys='You are an educational assistant for software vulnerability learning. '
+      +'Answer the user naturally and conversationally. '
+      +'Output ONLY a JSON object: {"inject_dim":null,"sections":[{"label":"","title":"","content":"<your full answer>","summary":"","subsections":[]}],"pills":[]}';
+  }
 
   fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      system:buildSys(injectDim, isFixQ),
-      messages:S.history,
-      use_search:false
-    })
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system:sys,messages:S.history,use_search:false,response_format:{type:'json_object'}})
   })
   .then(function(r){return r.json();})
   .then(function(data){
@@ -518,136 +397,101 @@ function callAPI(apiText, visibleText, injectDim){
     var raw=(data.content&&data.content[0])?data.content[0].text:'';
     S.history.push({role:'assistant',content:raw});
     var parsed=parseResp(raw);
-    renderResp(parsed);
-    // Light sidebar dims from response sections
-    parsed.sections.forEach(function(sec){
-      if(KNOWN_DIMS.indexOf(sec.d)>=0) lightDimFromResponse(sec.d);
+    var seen={};
+    parsed.sections=parsed.sections.filter(function(s){
+      if(seen[s.d])return false;seen[s.d]=true;return true;
     });
+    renderResp(parsed);
+    // 用模型返回的 inject_dim 更新维度状态（比前端关键词匹配更准确）
+    parsed.sections.forEach(function(sec){
+      if(KNOWN_DIMS.indexOf(sec.d)>=0)lightDimFromResponse(sec.d);
+    });
+    if(parsed.inject_dim&&KNOWN_DIMS.indexOf(parsed.inject_dim)>=0){
+      markDimL1(parsed.inject_dim);
+    }
   })
   .catch(function(e){
-    clearTimeout(busyTimer);
-    thinkEl.remove();
-    appendErr('Network error: '+e.message);
-    S.history.pop();
+    clearTimeout(busyTimer);thinkEl.remove();
+    appendErr('Network error: '+e.message);S.history.pop();
   })
   .finally(function(){setBusy(false);});
 }
 
 function appendThink(){
-  var el=document.createElement('div');
-  el.className='ma appear';
+  var el=document.createElement('div');el.className='ma appear';
   el.innerHTML='<div class="block-card"><div class="thinking"><span></span><span></span><span></span> Thinking...</div></div>';
-  $('msgs').appendChild(el);
-  sb();
-  return el;
+  $('msgs').appendChild(el);sb();return el;
 }
-
 function appendErr(msg){
-  var el=document.createElement('div');
-  el.className='ma appear';
+  var el=document.createElement('div');el.className='ma appear';
   el.innerHTML='<div class="block-card"><div style="padding:10px 13px;color:#be123c;font-size:13px;">&#9888; '+esc(msg)+'</div></div>';
-  $('msgs').appendChild(el);
-  sb();
-}
-
-// ─── SYSTEM PROMPT ────────────────────────────────────────────────────────────
-// isFixQ: enforce Cause→Behavior→Prevention ordering
-// injectDim: S4 dimension to append as a mandatory additional section
-function buildSys(injectDim, isFixQ){
-  var codeCtx=S.codeSnippet
-    ?'\nThe user has provided this code snippet for analysis:\n```\n'+S.codeSnippet+'\n```\nReference specific lines when relevant.\n'
-    :'';
-  var srcCtx=S.srcs.length
-    ?'Previously cited sources (reuse numbers): '+S.srcs.map(function(s){return '['+s.num+'] '+s.label;}).join(', ')+'.\n'
-    :'';
-
-  // S1 ordering enforcement
-  var orderingCtx=isFixQ
-    ?'\nSECTION ORDERING (mandatory): Output sections in this exact order: [SECTION:Cause], [SECTION:Behavior], [SECTION:Prevention]. Do not output Prevention before Cause and Behavior.\n'
-    :'';
-
-  // S4 injection: strong system-level instruction, tied to current question context
-  var isRepeatInject = injectDim && S.litDims.has(injectDim) && !S.deepDims.has(injectDim);
-  var injectCtx='';
-  if(injectDim){
-    var injectLabel={
-      Cause:'root cause (why this vulnerability exists)',
-      Behavior:'runtime behavior (how it manifests in execution)',
-      Danger:'security risks and attacker impact',
-      Recognition:'where in code this vulnerability appears',
-      Prevention:'how to fix or prevent this'
-    }[injectDim];
-    injectCtx='\nMANDATORY ADDITIONAL SECTION: After fully answering the user\'s question first, you MUST append an additional [SECTION:'+injectDim+'] covering the '+injectLabel+'. '
-      +'The user\'s question MUST be answered first and completely — do not replace or skip it. '
-      +(isRepeatInject
-        ? 'This dimension has appeared before — use a different angle, analogy, or concrete example not previously used. '
-        : '')
-      +'Keep the injected section brief (2-3 sentences in one [SUB:]) and connect it naturally to what the user asked. This section is required — do not omit it.\n';
-  }
-
-  return 'You are SecureLearn, an educational assistant for software vulnerability learning.\n'
-    +codeCtx+srcCtx+orderingCtx+injectCtx
-    +'\nSTRUCTURE every response using [SECTION:] tags. Rules for the section label:\n'
-    +'- If the content maps to a vulnerability dimension, use that name: Cause, Behavior, Danger, Recognition, or Prevention.\n'
-    +'- Otherwise, use a short phrase that summarises what the section answers (e.g. "What is DROP TABLE", "How XSS Works", "Overview"). Do NOT use "General".\n'
-    +'- The injected section (if any) must use its specified dimension name.\n'
-    +'\nFor each section:\n'
-    +'[SECTION:Label]\n'
-    +'[SUMMARY:2-3 sentences. Be specific enough that the user can decide whether to expand. Include the key mechanism, example, or finding — not a vague restatement of the section title.]\n'
-    +'[SUB:Short bold title]\n<content>\n\n'
-    +'[SOURCES]\n[{"label":"Title","url":"https://...","badge":"CVE|OWASP|MITRE|guideline|paper","summary":"one sentence"},...]\n\n'
-    +'[REAL_WORLD]\n[{"title":"Name","cve":"CVE-XXXX or null","url":"https://...","description":"2 sentences"},...]\n\n'
-    +'[FOLLOW_UP_PILLS]\n["question 1","question 2","question 3"]';
+  $('msgs').appendChild(el);sb();
 }
 
 // ─── RESPONSE PARSING ─────────────────────────────────────────────────────────
-function extractBlock(text,tag){
-  var re=new RegExp('\\['+tag+'\\]([\\s\\S]*?)(?=\\[\\w|\\s*$)');
-  var m=re.exec(text);
-  return m?m[1].trim():'';
-}
-
 function parseResp(raw){
-  var p={sections:[],causal:'',sources:[],rw:[],pills:[]};
-  var secRe=/\[SECTION:([^\]]+)\]([\s\S]*?)(?=\[SECTION:|\[CAUSAL|\[SOURCES|\[REAL_WORLD|\[FOLLOW|\s*$)/g,m;
-  while((m=secRe.exec(raw))!==null){
-    var secRaw=m[2];
-    var sumMatch=/\[SUMMARY:([^\]]+)\]/.exec(secRaw);
-    var summary=sumMatch?sumMatch[1].trim():'';
-    var subs=[],subRe=/\[SUB:([^\]]+)\]([\s\S]*?)(?=\[SUB:|\[SECTION:|\[CAUSAL|\[SOURCES|\[REAL|\[FOLLOW|\s*$)/g,sm;
-    while((sm=subRe.exec(secRaw))!==null) subs.push({title:sm[1].trim(),body:sm[2].trim()});
-    if(!subs.length){var b=secRaw.replace(/\[SUMMARY:[^\]]+\]/,'').trim();if(b)subs.push({title:'',body:b});}
-    p.sections.push({d:m[1].trim(),summary:summary,subs:subs});
+  var p={sections:[],pills:[],inject_dim:null};
+  try{
+    var clean=raw.replace(/^```[a-z]*\n?/,'').replace(/```\s*$/,'').trim();
+    // 找到第一个 { 和最后一个 }，截取中间内容
+    var start=clean.indexOf('{');
+    var end=clean.lastIndexOf('}');
+    if(start!==-1&&end!==-1&&end>start)clean=clean.slice(start,end+1);
+    // 尝试直接 parse；失败时用正则提取最外层 { } 再试
+    var j;
+    try{
+      j=JSON.parse(clean);
+    }catch(e1){
+      var m=clean.match(/\{[\s\S]*\}/);
+      if(!m)throw e1;
+      j=JSON.parse(m[0]);
+    }
+    p.inject_dim=j.inject_dim||null;
+    (j.sections||[]).forEach(function(sec){
+      var subsections=[];
+      (sec.subsections||[]).forEach(function(ss){
+        subsections.push({
+          d:ss.label||'',
+          summary:ss.summary||'',
+          subs:[{title:ss.title||'',body:ss.content||'',summary:ss.summary||''}]
+        });
+      });
+      p.sections.push({
+        d:sec.label||'',
+        summary:sec.summary||'',
+        subs:[{title:sec.title||'',body:sec.content||'',summary:sec.summary||''}],
+        subsections:subsections
+      });
+    });
+    p.pills=j.pills||[];
+  }catch(e){
+    console.error('[parseResp] JSON.parse failed:',e.message);
+    console.error('[parseResp] raw (first 500):', raw.slice(0,500));
+    var fb=raw.trim();
+    if(fb)p.sections.push({d:'Response',summary:'',subs:[{title:'',body:fb,summary:''}],subsections:[]});
   }
-  // Fallback: no tags at all
-  if(!p.sections.length){
-    var fb=raw.replace(/\[CAUSAL[\s\S]*|\[SOURCES[\s\S]*|\[REAL_WORLD[\s\S]*|\[FOLLOW[\s\S]*/g,'').trim();
-    if(fb) p.sections.push({d:'Response',summary:'',subs:[{title:'',body:fb}]});
-  }
-  try{p.sources=JSON.parse(extractBlock(raw,'SOURCES')||'[]');}catch(e){}
-  try{p.rw=JSON.parse(extractBlock(raw,'REAL_WORLD')||'[]');}catch(e){}
-  try{p.pills=JSON.parse(extractBlock(raw,'FOLLOW_UP_PILLS')||'[]');}catch(e){}
   return p;
 }
 
 // ─── RENDER RESPONSE ──────────────────────────────────────────────────────────
+// CHANGED: first section is rendered as an always-open "intro card" (no toggle),
+// remaining sections keep the collapsible behaviour.
 var _navTipShown=false;
-var KNOWN_DIMS=['Cause','Behavior','Danger','Recognition','Prevention'];
-function renderResp(p){
-  if(p.sources.length) addSources(p.sources);
-  if(p.rw.length) addRW(p.rw);
+function renderSubsEl(sub){
+  var subEl=document.createElement('div');subEl.className='sec-sub';
+  var cleanTitle=sub.title.replace(/\*\*/g,'').trim();
+  subEl.innerHTML='<div class="sec-details-body">'
+    +(cleanTitle?'<strong style="display:block;margin-bottom:4px">'+esc(cleanTitle)+'</strong>':'')
+    +injectSrcRefs(fmt(sub.body))+'</div>';
+  return subEl;
+}
 
+function renderResp(p){
   var c=$('msgs'),wrapper=document.createElement('div');
   wrapper.className='ma appear';
-
-  if(!p.sections.length){
-    c.appendChild(wrapper);sb();return;
-  }
-
+  if(!p.sections.length){c.appendChild(wrapper);sb();return;}
   var row=document.createElement('div');row.className='resp-row';
   var main=document.createElement('div');main.className='resp-main';
-
-  // Nav only when multiple sections
   var nav=null;
   if(p.sections.length>1){
     nav=document.createElement('div');nav.className='resp-nav';
@@ -658,50 +502,113 @@ function renderResp(p){
     }
     nav.innerHTML=navTitle;
   }
+
   p.sections.forEach(function(sec,si){
     var secId='sec-'+Date.now()+'-'+si;
+    var isFirst=(si===0);
+    var isPlain=(!sec.d&&p.sections.length===1);
+
+    // ── ALL SECTIONS: same collapsible card, first one defaults open ──
     var card=document.createElement('div');card.className='sec-card';card.id=secId;
     var summaryEl=document.createElement('div');summaryEl.className='sec-summary';
-    var blurbText=sec.summary||(sec.subs[0]?sec.subs[0].title:'');
-    summaryEl.innerHTML='<div class="sec-title">'+esc(sec.d)+'</div>'
-      +'<div class="sec-blurb">'+esc(blurbText)+'</div>'
-      +'<span class="sec-toggle" data-open="false">Show details \u25b8</span>';
+    var blurbText=sec.summary||'';
+
+    // Plain single-section reply: hide header chrome entirely
+    if(isPlain){
+      summaryEl.style.display='none';
+    } else {
+      summaryEl.innerHTML='<div class="sec-title">'+esc(sec.d)+'</div>'
+        +(blurbText?'<div class="sec-blurb">'+esc(blurbText)+'</div>':'')
+        +'<span class="sec-toggle" data-open="false">Show details \u25b8</span>';
+    }
+
     var details=document.createElement('div');details.className='sec-details';
-    sec.subs.forEach(function(sub){
-      var subEl=document.createElement('div');subEl.className='sec-sub';
-      var cleanTitle=sub.title.replace(/\*\*/g,'').trim();
-      subEl.innerHTML='<div class="sec-details-body">'
-        +(cleanTitle?'<strong style="display:block;margin-bottom:4px">'+esc(cleanTitle)+'</strong>':'')
-        +injectSrcRefs(fmt(sub.body))+'</div>';
-      details.appendChild(subEl);
-    });
-    if(si===0&&p.causal){}
+    sec.subs.forEach(function(sub){details.appendChild(renderSubsEl(sub));});
+
+    // Nested subsections
+    if(sec.subsections&&sec.subsections.length){
+      var ssGroup=document.createElement('div');ssGroup.className='subsec-group';
+      sec.subsections.forEach(function(ss,ssi){
+        var ssId=secId+'-ss-'+ssi;
+        var ssCard=document.createElement('div');ssCard.className='subsec-card';ssCard.id=ssId;
+        var ssSumEl=document.createElement('div');ssSumEl.className='subsec-summary';
+        ssSumEl.innerHTML='<div class="subsec-title">'+esc(ss.d)+'</div>'
+          +(ss.summary?'<div class="subsec-blurb">'+esc(ss.summary)+'</div>':'')
+          +'<span class="subsec-toggle" data-open="false">Show \u25b8</span>';
+        var ssDetails=document.createElement('div');ssDetails.className='subsec-details';
+        ss.subs.forEach(function(sub){ssDetails.appendChild(renderSubsEl(sub));});
+        function openSS(){
+          ssDetails.classList.add('open');
+          ssSumEl.querySelector('.subsec-toggle').dataset.open='true';
+          ssSumEl.querySelector('.subsec-toggle').innerHTML='Hide \u25be';
+          if(KNOWN_DIMS.indexOf(ss.d)>=0)markDimL2(ss.d);
+        }
+        ssCard._openFn=openSS;
+        ssSumEl.onclick=function(e){
+          e.stopPropagation();
+          var tog=ssSumEl.querySelector('.subsec-toggle');
+          if(tog.dataset.open==='true'){ssDetails.classList.remove('open');tog.dataset.open='false';tog.innerHTML='Show \u25b8';}
+          else{openSS();}
+        };
+        ssCard.appendChild(ssSumEl);ssCard.appendChild(ssDetails);ssGroup.appendChild(ssCard);
+        if(nav){
+          var navChild=document.createElement('span');
+          navChild.className='resp-nav-child';navChild.textContent=ss.d;
+          navChild.onclick=(function(el,openParentFn,openSsFn){return function(){
+            openParentFn();
+            setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'nearest'});openSsFn();},150);
+          };})(ssCard,openCard,openSS);
+          nav.appendChild(navChild);
+        }
+      });
+      details.appendChild(ssGroup);
+    }
+
     function openCard(){
       details.classList.add('open');
-      summaryEl.querySelector('.sec-toggle').dataset.open='true';
-      summaryEl.querySelector('.sec-toggle').innerHTML='Hide details \u25be';
-      if(KNOWN_DIMS.indexOf(sec.d)>=0) markDimL2(sec.d);
+      card.classList.add('is-open');
+      var tog=summaryEl.querySelector('.sec-toggle');
+      if(tog){tog.dataset.open='true';tog.innerHTML='Hide details \u25be';}
+      if(KNOWN_DIMS.indexOf(sec.d)>=0)markDimL2(sec.d);
+    }
+    function closeCard(){
+      details.classList.remove('open');
+      card.classList.remove('is-open');
+      var tog=summaryEl.querySelector('.sec-toggle');
+      if(tog){tog.dataset.open='false';tog.innerHTML='Show details \u25b8';}
     }
     summaryEl.onclick=function(){
       var toggle=summaryEl.querySelector('.sec-toggle');
-      if(toggle.dataset.open==='true'){
-        details.classList.remove('open');toggle.dataset.open='false';
-        toggle.innerHTML='Show details \u25b8';
-      } else { openCard(); }
+      if(toggle&&toggle.dataset.open==='true'){closeCard();}
+      else{openCard();}
     };
-    if(nav){
+
+    // First section: open by default, no animation
+    if(isFirst||isPlain){
+      details.classList.add('open');
+      card.classList.add('is-open');
+      if(!isPlain){
+        var tog=summaryEl.querySelector('.sec-toggle');
+        if(tog){tog.dataset.open='true';tog.innerHTML='Hide details \u25be';}
+      }
+      if(KNOWN_DIMS.indexOf(sec.d)>=0)markDimL1(sec.d);
+    }
+
+    if(nav&&!isPlain){
       var navItem=document.createElement('span');
-      navItem.className='resp-nav-item';
-      navItem.textContent=sec.d;
+      navItem.className='resp-nav-item';navItem.textContent=sec.d;
       navItem.onclick=(function(el,openFn){return function(){
-        el.scrollIntoView({behavior:'smooth',block:'nearest'});
-        openFn();
+        el.scrollIntoView({behavior:'smooth',block:'nearest'});openFn();
       };})(card,openCard);
       nav.appendChild(navItem);
     }
     card.appendChild(summaryEl);card.appendChild(details);main.appendChild(card);
   });
-  if(p.pills.length) main.appendChild(makePills(p.pills));
+
+  if(p.pills.length){
+    var realPills=p.pills.filter(function(q){return q&&q.length>10&&!/^q\d+$/i.test(q);});
+    if(realPills.length)main.appendChild(makePills(realPills));
+  }
   row.appendChild(main);if(nav)row.appendChild(nav);
   wrapper.appendChild(row);c.appendChild(wrapper);sb();
 }
@@ -718,7 +625,6 @@ function makePills(pills){
   return pr;
 }
 
-
 function injectSrcRefs(html){
   return html.replace(/\[(\d+)\]/g,function(_,n){
     return '<span class="src-ref" title="Source '+n+'">['+n+']</span>';
@@ -726,7 +632,7 @@ function injectSrcRefs(html){
 }
 
 function fmt(text){
-  if(!text) return '';
+  if(!text)return '';
   text=text.replace(/```(\w*)\n?([\s\S]*?)```/g,function(_,l,code){
     return '<div style="background:#141414;border-radius:6px;padding:8px 11px;margin:6px 0;font-family:var(--mono);font-size:11.5px;color:#a6e3a1;overflow-x:auto;white-space:pre;">'+esc(code.trim())+'</div>';
   });
@@ -739,59 +645,32 @@ function fmt(text){
   return '<p>'+text+'</p>';
 }
 
-// Stub functions for removed panels
-function addSources(list){list.forEach(function(s){if(S.srcs.find(function(x){return x.label===s.label;}))return;s.num=S.srcs.length+1;S.srcs.push(s);});}
-function addRW(list){list.forEach(function(c){if(!S.rws.find(function(x){return x.title===c.title;}))S.rws.push(c);});}
-
 // ─── TEST & REFLECT ───────────────────────────────────────────────────────────
-function toggleTestPopover(e){
-  e.stopPropagation();
-  $('testPopover').classList.toggle('open');
-}
+function toggleTestPopover(e){e.stopPropagation();$('testPopover').classList.toggle('open');}
 document.addEventListener('click',function(e){
   var p=$('testPopover'),btn=$('testChipBtn');
-  if(p.classList.contains('open')&&!p.contains(e.target)&&e.target!==btn) p.classList.remove('open');
+  if(p.classList.contains('open')&&!p.contains(e.target)&&e.target!==btn)p.classList.remove('open');
 });
 function switchPTab(id,el){
   document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('.ptab-content').forEach(function(t){t.classList.remove('active');});
-  el.classList.add('active');
-  $('pcontent-'+id).classList.add('active');
+  el.classList.add('active');$('pcontent-'+id).classList.add('active');
 }
 
-// S5: MCQ generation — rotates dimension focus across attempts
-// Basis: retrieval practice (Roediger & Karpicke 2006); E5 retention concern
 function generateMCQ(){
-  if(S.busy) return;
-  if(!S.history.length){
-    $('mcqArea').innerHTML='<p style="font-size:12px;color:var(--muted);line-height:1.6">Ask at least one question first — the quiz is based on your conversation.</p>';
-    return;
-  }
+  if(S.busy)return;
+  if(!S.history.length){$('mcqArea').innerHTML='<p style="font-size:12px;color:var(--muted);line-height:1.6">Ask at least one question first.</p>';return;}
   S.testCount++;
-  var btn=$('genBtn');
-  btn.disabled=true;btn.textContent='Generating...';
+  var btn=$('genBtn');btn.disabled=true;btn.textContent='Generating...';
   var area=$('mcqArea');
   area.innerHTML='<div class="thinking"><span></span><span></span><span></span> Generating...</div>';
-
-  // Rotate focus: reasoning dims first (Cause, Behavior, Danger) since these have highest gain gaps
-  var dimFocus=[
-    'what the vulnerability is and why it exists (root cause)',
-    'how it manifests at runtime or in memory',
-    'what security risks or attacker impact it introduces',
-    'how to recognize or locate it in code',
-    'how to fix or prevent it'
-  ];
-  var focusHint=dimFocus[(S.testCount-1) % dimFocus.length];
-
+  var dimFocus=['what the vulnerability is and why it exists (root cause)','how it manifests at runtime or in memory','what security risks or attacker impact it introduces','how to recognize or locate it in code','how to fix or prevent it'];
+  var focusHint=dimFocus[(S.testCount-1)%dimFocus.length];
   var sys='Generate ONE multiple-choice question to test understanding of the vulnerability discussed.'
-    +' This question should focus on: '+focusHint+'.'
-    +(S.testCount>1?' This is question #'+S.testCount+' — do not repeat a question already asked.':'')
-    +' Return ONLY valid JSON (no markdown): {"question":"...","options":["a) ...","b) ...","c) ...","d) ..."],"correct":0,"explanation":"2-3 sentences: why correct answer is right and why each wrong option is incorrect"} correct is 0-indexed.';
-
-  var msgs=S.history.length
-    ?S.history.concat([{role:'user',content:'Generate MCQ #'+S.testCount}])
-    :[{role:'user',content:'Generate a software vulnerability MCQ #'+S.testCount}];
-
+    +' Focus on: '+focusHint+'.'
+    +(S.testCount>1?' Do not repeat a question already asked.':'')
+    +' Return ONLY valid JSON: {"question":"...","options":["a) ...","b) ...","c) ...","d) ..."],"correct":0,"explanation":"2-3 sentences"} correct is 0-indexed.';
+  var msgs=S.history.concat([{role:'user',content:'Generate MCQ #'+S.testCount}]);
   fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({system:sys,messages:msgs,use_search:false})
@@ -800,7 +679,7 @@ function generateMCQ(){
   .then(function(data){
     var raw=(data.content&&data.content[0])?data.content[0].text:'';
     var jm=raw.match(/\{[\s\S]+\}/);
-    if(!jm) throw new Error('Could not parse JSON');
+    if(!jm)throw new Error('Could not parse JSON');
     renderMCQ(JSON.parse(jm[0]));
   })
   .catch(function(e){area.innerHTML='<div style="color:#be123c;font-size:12px;">Error: '+esc(e.message)+'</div>';})
@@ -809,26 +688,16 @@ function generateMCQ(){
 
 function renderMCQ(q){
   var area=$('mcqArea'),uid='mcq'+Math.random().toString(36).slice(2);
-  var opts=q.options.slice();
-  var correctText=opts[q.correct];
-  // Shuffle options
-  for(var i=opts.length-1;i>0;i--){
-    var j=Math.floor(Math.random()*(i+1));
-    var tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;
-  }
-  var letters=['a','b','c','d'];
-  var newCorrect=opts.indexOf(correctText);
-  opts=opts.map(function(o,i){
-    var stripped=o.replace(/^[a-d]\)\s*/,'');
-    return letters[i]+') '+stripped;
-  });
+  var opts=q.options.slice(),correctText=opts[q.correct];
+  for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;}
+  var letters=['a','b','c','d'],newCorrect=opts.indexOf(correctText);
+  opts=opts.map(function(o,i){return letters[i]+') '+o.replace(/^[a-d]\)\s*/,'');});
   area.innerHTML='<div class="tcard"><div class="thdr">Question #'+S.testCount+'</div>'
     +'<div style="font-size:12.5px;line-height:1.55;margin-bottom:6px;">'+esc(q.question)+'</div>'
     +'<div class="topts" id="'+uid+'"></div><div class="tfb" id="fb-'+uid+'"></div></div>';
   var optsEl=document.getElementById(uid);
   opts.forEach(function(optText,i){
-    var opt=document.createElement('div');
-    opt.className='topt';opt.dataset.i=i;opt.textContent=optText;
+    var opt=document.createElement('div');opt.className='topt';opt.dataset.i=i;opt.textContent=optText;
     var isCorrect=(i===newCorrect);
     opt.addEventListener('click',function(){
       document.querySelectorAll('#'+uid+' .topt').forEach(function(o){o.classList.add('locked');});
@@ -842,73 +711,36 @@ function renderMCQ(q){
   });
 }
 
-// S5: Open-ended self-explanation
-// Basis: open questions needed for Cause/Behavior/Danger which require explanatory answers
 function submitSE(){
-  var text=$('seText').value.trim();
-  if(!text) return;
-  if(!S.history.length){
-    var fb=$('seFeedback');
-    fb.className='se-fb show';
-    fb.textContent='Ask at least one question first — feedback is based on your conversation.';
-    return;
-  }
+  var text=$('seText').value.trim();if(!text)return;
+  if(!S.history.length){var fb=$('seFeedback');fb.className='se-fb show';fb.textContent='Ask at least one question first.';return;}
   var btn=$('seSubmitBtn'),fb=$('seFeedback');
-  btn.disabled=true;btn.textContent='Checking...';
-  fb.className='se-fb';
+  btn.disabled=true;btn.textContent='Checking...';fb.className='se-fb';
   fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      use_search:false,
-      system:'The user wrote a self-explanation of a software vulnerability concept. Evaluate in 2-3 sentences. If correct: confirm and add one key insight. If wrong/incomplete: gently correct and explain the missing point. Start with checkmark if correct or speech bubble if needs improvement. Max 60 words.',
-      messages:S.history.concat([{role:'user',content:'My self-explanation: '+text}])
-    })
+    body:JSON.stringify({use_search:false,system:'Evaluate this self-explanation in 2-3 sentences. If correct: confirm and add one key insight. If wrong/incomplete: gently correct. Start with checkmark if correct or speech bubble if needs improvement. Max 60 words.',messages:S.history.concat([{role:'user',content:'My self-explanation: '+text}])})
   })
   .then(function(r){return r.json();})
-  .then(function(data){
-    var f=(data.content&&data.content[0])?data.content[0].text:'Thanks!';
-    fb.className='se-fb show';fb.textContent=f;
-    btn.textContent='Submit again';btn.disabled=false;
-  })
-  .catch(function(){
-    fb.className='se-fb show';fb.textContent='Could not get feedback right now.';
-    btn.disabled=false;btn.textContent='Submit';
-  });
+  .then(function(data){var f=(data.content&&data.content[0])?data.content[0].text:'Thanks!';fb.className='se-fb show';fb.textContent=f;btn.textContent='Submit again';btn.disabled=false;})
+  .catch(function(){fb.className='se-fb show';fb.textContent='Could not get feedback right now.';btn.disabled=false;btn.textContent='Submit';});
 }
 function clearSE(){$('seText').value='';$('seFeedback').className='se-fb';$('seFeedback').textContent='';$('seSubmitBtn').textContent='Submit \u2192';$('seSubmitBtn').disabled=false;}
 
-// ─── S2: AUTOCOMPLETE ─────────────────────────────────────────────────────────
-// LLM-powered suggestions + Tab ghost text.
-// Prioritises uncovered dimensions to boost diversity (B3).
-// Basis: E2 (prompt effort), E4 (can't think of follow-up), B3 (dim diversity)
-var _acTimer=null, _acActive=[], _acIdx=-1, _acGhost='', _acFetching=false, _acLastText='';
-
+// ─── AUTOCOMPLETE ─────────────────────────────────────────────────────────────
+var _acTimer=null,_acActive=[],_acIdx=-1,_acGhost='',_acFetching=false,_acLastText='';
 function acGetContext(){
   var lastAsst=S.history.filter(function(m){return m.role==='assistant';}).slice(-1)[0];
-  if(lastAsst) return lastAsst.content.slice(0,300);
-  return '';
+  return lastAsst?lastAsst.content.slice(0,300):'';
 }
-
 function acFetchSuggestions(text){
-  if(_acFetching||text.length<3) return;
+  if(_acFetching||text.length<3)return;
   _acFetching=true;
-
   var ctx=acGetContext();
-  // Build hint about uncovered dimensions to bias suggestions
   var uncovered=DIM_INJECT_PRIORITY.filter(function(d){return !S.litDims.has(d);});
-  var dimHint=uncovered.length
-    ?'The user has NOT yet explored these dimensions: '+uncovered.join(', ')+'. Prefer suggesting questions about these.'
-    :'The user has covered all dimensions. Suggest deeper follow-up questions.';
-
+  var dimHint=uncovered.length?'User has NOT yet explored: '+uncovered.join(', ')+'. Prefer these.':'Suggest deeper follow-up questions.';
   var sys='You are a query suggestion engine for a security learning tool. '
-    +'The user is typing a question about software vulnerabilities. '
-    +(ctx?'The conversation so far covers: '+ctx.slice(0,200)+'. ':'')
-    +dimHint+' '
-    +'Generate exactly 3 complete, natural question suggestions that logically continue or complete what the user has typed. '
-    +'Each suggestion should be a full, specific question — not a fragment. '
-    +'Prioritise questions about causes, runtime behavior, risks, or mechanisms over fix/prevention questions unless the user is clearly asking about fixes. '
-    +'Return ONLY a JSON array of 3 strings, no markdown, no explanation: ["question 1","question 2","question 3"]';
-
+    +(ctx?'Conversation so far: '+ctx.slice(0,200)+'. ':'')+dimHint+' '
+    +'Generate exactly 3 complete question suggestions. Return ONLY a JSON array: ["question 1","question 2","question 3"]';
   fetch('https://vuln-tool-server-itgi3.ondigitalocean.app/api/chat',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({system:sys,messages:[{role:'user',content:'Complete this query: "'+text+'"'}]})
@@ -916,56 +748,38 @@ function acFetchSuggestions(text){
   .then(function(r){return r.json();})
   .then(function(data){
     var raw=(data.content&&data.content[0])?data.content[0].text:'';
-    var m=raw.match(/\[[\s\S]+\]/);
-    if(!m) return;
+    var m=raw.match(/\[[\s\S]+\]/);if(!m)return;
     var suggestions=JSON.parse(m[0]);
-    if(!Array.isArray(suggestions)||!suggestions.length) return;
+    if(!Array.isArray(suggestions)||!suggestions.length)return;
     acShowSuggestions(text,suggestions);
   })
   .catch(function(){})
   .finally(function(){_acFetching=false;});
 }
-
 function acShowSuggestions(typed,suggestions){
-  if(S.busy) return; // don't show if response is being generated
-  var list=$('suggestList');
-  list.innerHTML='';
-  _acActive=suggestions;_acIdx=-1;
-
-  _acGhost='';
+  if(S.busy)return;
+  var list=$('suggestList');list.innerHTML='';
+  _acActive=suggestions;_acIdx=-1;_acGhost='';
   var lower=typed.toLowerCase();
-  for(var i=0;i<suggestions.length;i++){
-    if(suggestions[i].toLowerCase().startsWith(lower)){_acGhost=suggestions[i];break;}
-  }
+  for(var i=0;i<suggestions.length;i++){if(suggestions[i].toLowerCase().startsWith(lower)){_acGhost=suggestions[i];break;}}
   acRenderGhost(typed);
-
   suggestions.forEach(function(s,i){
-    var item=document.createElement('div');
-    item.className='suggest-item';item.dataset.idx=i;
-    var hl=s;
-    if(s.toLowerCase().startsWith(typed.toLowerCase())){
-      hl='<em>'+esc(s.slice(0,typed.length))+'</em>'+esc(s.slice(typed.length));
-    } else {hl=esc(s);}
+    var item=document.createElement('div');item.className='suggest-item';item.dataset.idx=i;
+    var hl=s.toLowerCase().startsWith(typed.toLowerCase())?'<em>'+esc(s.slice(0,typed.length))+'</em>'+esc(s.slice(typed.length)):esc(s);
     item.innerHTML=hl;
     item.addEventListener('mousedown',function(e){e.preventDefault();acAccept(s);});
     list.appendChild(item);
   });
-
-  var hint=document.createElement('div');
-  hint.className='suggest-hint';
+  var hint=document.createElement('div');hint.className='suggest-hint';
   hint.textContent='Tab to accept \u00b7 \u2191\u2193 to navigate \u00b7 Esc to dismiss';
-  list.appendChild(hint);
-  list.classList.add('open');
+  list.appendChild(hint);list.classList.add('open');
 }
-
 function acRenderGhost(typed){
   var wrap=$('ghostWrap');if(!wrap)return;
   if(_acGhost&&_acGhost.toLowerCase().startsWith(typed.toLowerCase())){
-    wrap.innerHTML='<span class="ghost-typed">'+esc(typed)+'</span>'
-      +'<span class="ghost-completion">'+esc(_acGhost.slice(typed.length))+'</span>';
-  } else {wrap.innerHTML='';}
+    wrap.innerHTML='<span class="ghost-typed">'+esc(typed)+'</span><span class="ghost-completion">'+esc(_acGhost.slice(typed.length))+'</span>';
+  }else{wrap.innerHTML='';}
 }
-
 function acHide(){
   var list=$('suggestList');if(list)list.classList.remove('open');
   var wrap=$('ghostWrap');if(wrap)wrap.innerHTML='';
@@ -973,37 +787,24 @@ function acHide(){
 }
 function acAccept(text){var inp=$('cin');inp.value=text;_acLastText=text;ar(inp);acHide();inp.focus();}
 function acHighlight(idx){
-  var items=document.querySelectorAll('#suggestList .suggest-item');
-  items.forEach(function(el,i){el.classList.toggle('active',i===idx);});
+  document.querySelectorAll('#suggestList .suggest-item').forEach(function(el,i){el.classList.toggle('active',i===idx);});
   _acIdx=idx;
 }
 function onInputChange(el){
   if(S.busy){acHide();return;}
   var text=el.value;
-  // Empty input — hide and reset
   if(!text.trim()){acHide();_acLastText='';return;}
-  // Text hasn't changed (e.g. focus event, not actual typing) — don't re-fetch
-  if(text===_acLastText) return;
-  // Show ghost based on cached suggestions if text still matches
-  if(text.trim().length>=3) acRenderGhost(text);
+  if(text===_acLastText)return;
+  if(text.trim().length>=3)acRenderGhost(text);
   else{acHide();return;}
   clearTimeout(_acTimer);
   _acTimer=setTimeout(function(){
-    if(text.trim().length>=3 && text!==$('cin').value===false){
-      _acLastText=text;
-      acFetchSuggestions(text.trim());
-    }
-  },800);
+    if(text.trim().length>=3&&text===$('cin').value){_acLastText=text;acFetchSuggestions(text.trim());}
+  },100);
 }
 function handleInputKey(e){
-  var list=$('suggestList');
-  var isOpen=list&&list.classList.contains('open');
-  if(e.key==='Tab'){
-    e.preventDefault();
-    if(_acGhost){acAccept(_acGhost);}
-    else if(isOpen&&_acActive.length){acAccept(_acActive[0]);}
-    return;
-  }
+  var list=$('suggestList'),isOpen=list&&list.classList.contains('open');
+  if(e.key==='Tab'){e.preventDefault();if(_acGhost){acAccept(_acGhost);}else if(isOpen&&_acActive.length){acAccept(_acActive[0]);}return;}
   if(e.key==='ArrowDown'&&isOpen){e.preventDefault();acHighlight(Math.min(_acIdx+1,_acActive.length-1));return;}
   if(e.key==='ArrowUp'&&isOpen){e.preventDefault();acHighlight(Math.max(_acIdx-1,-1));return;}
   if(e.key==='Enter'&&isOpen&&_acIdx>=0){e.preventDefault();acAccept(_acActive[_acIdx]);return;}
@@ -1013,40 +814,18 @@ function handleInputKey(e){
 }
 document.addEventListener('mousedown',function(e){
   var list=$('suggestList'),inp=$('cin');
-  if(list&&!list.contains(e.target)&&e.target!==inp) acHide();
+  if(list&&!list.contains(e.target)&&e.target!==inp)acHide();
 });
 
 // ─── ONBOARDING TOUR ──────────────────────────────────────────────────────────
 var TOUR_STEPS=[
-  {
-    target:'cin',
-    title:'Start asking here',
-    desc:'Type any question about a vulnerability — <strong>what it is, why it happens, how it behaves, the risks, or how to fix it</strong>.',
-    placement:'top'
-  },
-  {
-    target:'testChipBtn',
-    title:'Test & Reflect — use this often',
-    desc:'Click here <strong>any time</strong> to generate a quiz question based on your conversation so far. Under <strong>Reflect</strong>, write an explanation in your own words and get instant feedback.',
-    placement:'top'
-  }
+  {target:'cin',title:'Start asking here',desc:'Type any question about a vulnerability — <strong>what it is, why it happens, how it behaves, the risks, or how to fix it</strong>.',placement:'top'},
+  {target:'testChipBtn',title:'Test & Reflect — use this often',desc:'Click here <strong>any time</strong> to generate a quiz question based on your conversation so far. Under <strong>Reflect</strong>, write an explanation in your own words and get instant feedback.',placement:'top'}
 ];
-
-var TOUR_POST_RESPONSE={
-  target:'first-nav-hint',
-  title:'Jump between sections',
-  desc:'The <strong>Sections</strong> panel on the right lists every part of the response. Click any item to scroll to it and expand it automatically.',
-  placement:'top-left'
-};
-
+var TOUR_POST_RESPONSE={target:'first-nav-hint',title:'Jump between sections',desc:'The <strong>Sections</strong> panel on the right lists every part of the response. Click any item to scroll to it and expand it automatically.',placement:'top-left'};
 var tourActive=false,tourStep=0,tourPostShown=false;
 
-function tourGetRect(targetId){
-  var el=document.getElementById(targetId);
-  if(!el) return null;
-  var r=el.getBoundingClientRect();
-  return {top:r.top,left:r.left,width:r.width,height:r.height};
-}
+function tourGetRect(targetId){var el=document.getElementById(targetId);if(!el)return null;var r=el.getBoundingClientRect();return{top:r.top,left:r.left,width:r.width,height:r.height};}
 function tourPlaceBox(box,rect,placement){
   var pad=14,vw=window.innerWidth,vh=window.innerHeight,bw=300,bh=box.offsetHeight||180;
   var top,left;
@@ -1054,35 +833,23 @@ function tourPlaceBox(box,rect,placement){
   else if(placement==='top'){top=rect.top-bh-pad;left=rect.left+rect.width/2-bw/2;}
   else if(placement==='top-left'){top=rect.top-bh-pad;left=rect.left;}
   else{top=rect.top+rect.height+pad;left=rect.left;}
-  left=Math.max(10,Math.min(left,vw-bw-10));
-  top=Math.max(10,Math.min(top,vh-bh-10));
+  left=Math.max(10,Math.min(left,vw-bw-10));top=Math.max(10,Math.min(top,vh-bh-10));
   box.style.top=top+'px';box.style.left=left+'px';
 }
 function tourRender(stepIndex,steps){
   ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove();});
   if(stepIndex>=steps.length){tourEnd();return;}
-  var step=steps[stepIndex];
-  var rect=tourGetRect(step.target);
+  var step=steps[stepIndex],rect=tourGetRect(step.target);
   if(!rect){tourNext();return;}
-
-  var mask=document.createElement('div');
-  mask.id='tour-mask-el';mask.className='tour-mask';
-  document.body.appendChild(mask);
-
-  var hole=document.createElement('div');
-  hole.id='tour-hole';hole.className='tour-hole';
-  var pad=6;
-  hole.style.top=(rect.top-pad)+'px';hole.style.left=(rect.left-pad)+'px';
-  hole.style.width=(rect.width+pad*2)+'px';hole.style.height=(rect.height+pad*2)+'px';
-  document.body.appendChild(hole);
-
-  var box=document.createElement('div');
-  box.id='tour-box';box.className='tour-box';
+  var mask=document.createElement('div');mask.id='tour-mask-el';mask.className='tour-mask';document.body.appendChild(mask);
+  var hole=document.createElement('div');hole.id='tour-hole';hole.className='tour-hole';
+  var pad=6;hole.style.top=(rect.top-pad)+'px';hole.style.left=(rect.left-pad)+'px';
+  hole.style.width=(rect.width+pad*2)+'px';hole.style.height=(rect.height+pad*2)+'px';document.body.appendChild(hole);
+  var box=document.createElement('div');box.id='tour-box';box.className='tour-box';
   var dotsHtml=steps.map(function(_,i){return '<div class="tour-dot'+(i===stepIndex?' active':'')+'"></div>';}).join('');
   var isLast=(stepIndex===steps.length-1);
   box.innerHTML='<div class="tour-step-num">Step '+(stepIndex+1)+' of '+steps.length+'</div>'
-    +'<div class="tour-title">'+step.title+'</div>'
-    +'<div class="tour-desc">'+step.desc+'</div>'
+    +'<div class="tour-title">'+step.title+'</div><div class="tour-desc">'+step.desc+'</div>'
     +'<div class="tour-footer"><div class="tour-dots">'+dotsHtml+'</div>'
     +'<div class="tour-btns"><button class="tour-skip" onclick="tourEnd()">Skip tour</button>'
     +'<button class="tour-next" onclick="tourNext()">'+(isLast?'Done \u2713':'Next \u2192')+'</button></div></div>';
@@ -1092,37 +859,27 @@ function tourRender(stepIndex,steps){
 function tourNext(){tourStep++;tourRender(tourStep,TOUR_STEPS);}
 function tourEnd(){
   ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove();});
-  tourActive=false;
-  try{sessionStorage.setItem('sl_tour_done','1');}catch(e){}
+  tourActive=false;try{sessionStorage.setItem('sl_tour_done','1');}catch(e){}
 }
 function tourStart(){
-  if(tourActive) return;
+  if(tourActive)return;
   try{if(sessionStorage.getItem('sl_tour_done'))return;}catch(e){}
-  tourActive=true;tourStep=0;
-  setTimeout(function(){tourRender(0,TOUR_STEPS);},400);
+  tourActive=true;tourStep=0;setTimeout(function(){tourRender(0,TOUR_STEPS);},400);
 }
 function tourShowPostResponse(){
-  if(tourPostShown) return;
-  tourPostShown=true;
+  if(tourPostShown)return;
   setTimeout(function(){
-    // Target the first resp-nav panel (Sections) that appears after the first response
     var navEl=document.querySelector('#msgs .resp-nav');
-    if(!navEl) return; // no multi-section response yet, skip
+    if(!navEl)return;
+    tourPostShown=true;
     navEl.id='first-nav-hint';
-    var rect=navEl.getBoundingClientRect();
-    if(!rect.width) return;
+    var rect=navEl.getBoundingClientRect();if(!rect.width)return;
     ['tour-hole','tour-box','tour-mask-el'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove();});
-    var mask=document.createElement('div');
-    mask.id='tour-mask-el';mask.className='tour-mask';
-    document.body.appendChild(mask);
-    var hole=document.createElement('div');
-    hole.id='tour-hole';hole.className='tour-hole';
-    var pad=4;
-    hole.style.top=(rect.top-pad)+'px';hole.style.left=(rect.left-pad)+'px';
-    hole.style.width=(rect.width+pad*2)+'px';hole.style.height=(rect.height+pad*2)+'px';
-    document.body.appendChild(hole);
-    var box=document.createElement('div');
-    box.id='tour-box';box.className='tour-box';
+    var mask=document.createElement('div');mask.id='tour-mask-el';mask.className='tour-mask';document.body.appendChild(mask);
+    var hole=document.createElement('div');hole.id='tour-hole';hole.className='tour-hole';
+    var pad=4;hole.style.top=(rect.top-pad)+'px';hole.style.left=(rect.left-pad)+'px';
+    hole.style.width=(rect.width+pad*2)+'px';hole.style.height=(rect.height+pad*2)+'px';document.body.appendChild(hole);
+    var box=document.createElement('div');box.id='tour-box';box.className='tour-box';
     box.innerHTML='<div class="tour-step-num">Quick tip</div>'
       +'<div class="tour-title">'+TOUR_POST_RESPONSE.title+'</div>'
       +'<div class="tour-desc">'+TOUR_POST_RESPONSE.desc+'</div>'
@@ -1136,25 +893,15 @@ function tourShowPostResponse(){
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 window.addEventListener('load',tourStart);
 
-// Hook callAPI to show post-response tour tip after first answer
-var _firstResponseHooked=false;
 var _origCallAPI=callAPI;
-callAPI=function(apiText,visibleText,hintDim){
-  var isFirst=(S.n===1&&!tourPostShown&&!_firstResponseHooked);
-  if(isFirst) _firstResponseHooked=true;
+callAPI=function(apiText,visibleText,isVulnQuery){
   _origCallAPI.apply(this,arguments);
-  if(isFirst){
-    var check=setInterval(function(){
-      if(!S.busy){clearInterval(check);tourShowPostResponse();}
-    },300);
-  }
+  var check=setInterval(function(){
+    if(!S.busy){clearInterval(check);tourShowPostResponse();}
+  },300);
 };
 
-window.addEventListener('beforeunload', function(e){
-    e.preventDefault();
-    e.returnValue = '';
-  });
-
+window.addEventListener('beforeunload',function(e){e.preventDefault();e.returnValue='';});
 </script>
 </body>
 </html>
