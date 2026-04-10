@@ -429,23 +429,120 @@ function appendErr(msg){
 }
 
 // ─── RESPONSE PARSING ─────────────────────────────────────────────────────────
+// === FIX START: robust JSON parsing with multiple fallback strategies ===
+// Problem: LLM sometimes returns JSON with unescaped control characters (real
+// newlines/tabs inside string values), causing JSON.parse to fail intermittently.
+// Original code fell through to showing raw JSON as text.
+
+function repairJsonString(str){
+  // Walk char-by-char; inside JSON string values, escape real control chars
+  var result='',inString=false,i=0;
+  while(i<str.length){
+    var ch=str[i];
+    if(!inString){
+      if(ch==='"')inString=true;
+      result+=ch;i++;
+    }else{
+      if(ch==='\\'){
+        if(i+1<str.length){result+=ch+str[i+1];i+=2;}
+        else{result+=ch;i++;}
+      }else if(ch==='"'){
+        inString=false;result+=ch;i++;
+      }else if(ch==='\n'){
+        result+='\\n';i++;
+      }else if(ch==='\r'){
+        result+='\\r';i++;
+      }else if(ch==='\t'){
+        result+='\\t';i++;
+      }else if(ch.charCodeAt(0)<32){
+        result+='\\u'+('0000'+ch.charCodeAt(0).toString(16)).slice(-4);i++;
+      }else{
+        result+=ch;i++;
+      }
+    }
+  }
+  return result;
+}
+
+function extractJsonObject(str){
+  // Brace-matched extraction respecting string literals
+  var start=str.indexOf('{');
+  if(start===-1)return null;
+  var depth=0,inStr=false;
+  for(var i=start;i<str.length;i++){
+    var c=str[i];
+    if(inStr){if(c==='\\'){i++;continue;}if(c==='"')inStr=false;continue;}
+    if(c==='"'){inStr=true;continue;}
+    if(c==='{')depth++;
+    if(c==='}'){depth--;if(depth===0)return str.slice(start,i+1);}
+  }
+  return null;
+}
+
+function regexExtractSections(raw){
+  // Last resort: pull label/content/summary with regex so user sees readable text
+  var sections=[];
+  var labelRe=/"label"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+  var contentRe=/"content"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+  var summaryRe=/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
+  var labels=[],contents=[],summaries=[],m;
+  while((m=labelRe.exec(raw))!==null)labels.push(m[1]);
+  while((m=contentRe.exec(raw))!==null)contents.push(m[1]);
+  while((m=summaryRe.exec(raw))!==null)summaries.push(m[1]);
+  for(var i=0;i<Math.max(labels.length,contents.length);i++){
+    var unescape=function(s){return s.replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\');};
+    var label=unescape(labels[i]||'Section '+(i+1));
+    var body=unescape(contents[i]||'');
+    var summary=unescape(summaries[i]||'');
+    if(body)sections.push({d:label,summary:summary,subs:[{title:label,body:body,summary:summary}],subsections:[]});
+  }
+  return sections;
+}
+
 function parseResp(raw){
   var p={sections:[],pills:[],inject_dim:null};
+  if(!raw||!raw.trim())return p;
   try{
-    var clean=raw.replace(/^```[a-z]*\n?/,'').replace(/```\s*$/,'').trim();
-    // 找到第一个 { 和最后一个 }，截取中间内容
-    var start=clean.indexOf('{');
-    var end=clean.lastIndexOf('}');
-    if(start!==-1&&end!==-1&&end>start)clean=clean.slice(start,end+1);
-    // 尝试直接 parse；失败时用正则提取最外层 { } 再试
+    // Step 1: Strip markdown code fences
+    var clean=raw.trim();
+    clean=clean.replace(/^```(?:json|JSON)?\s*\n?/,'').replace(/\n?\s*```\s*$/,'').trim();
+
+    // Step 2: Extract outermost { ... } with proper brace matching
+    var jsonStr=extractJsonObject(clean);
+    if(!jsonStr)jsonStr=clean;
+
+    // Step 3: Try direct parse
     var j;
     try{
-      j=JSON.parse(clean);
+      j=JSON.parse(jsonStr);
     }catch(e1){
-      var m=clean.match(/\{[\s\S]*\}/);
-      if(!m)throw e1;
-      j=JSON.parse(m[0]);
+      // Step 4: Repair unescaped control chars in string values
+      try{
+        j=JSON.parse(repairJsonString(jsonStr));
+      }catch(e2){
+        // Step 5: Aggressive — replace ALL real newlines/tabs
+        try{
+          j=JSON.parse(jsonStr.replace(/[\r\n]+/g,'\\n').replace(/\t/g,'\\t'));
+        }catch(e3){
+          // Step 6: Regex extract content fields
+          console.error('[parseResp] All JSON.parse failed:',e1.message,e2.message,e3.message);
+          console.error('[parseResp] raw (first 500):',raw.slice(0,500));
+          var extracted=regexExtractSections(raw);
+          if(extracted.length){
+            p.sections=extracted;
+            var pillsMatch=raw.match(/"pills"\s*:\s*\[((?:[^\]])*)\]/);
+            if(pillsMatch){try{p.pills=JSON.parse('['+pillsMatch[1]+']');}catch(ep){}}
+            return p;
+          }
+          // Step 7: Strip JSON syntax, show as plain text
+          var readable=raw.replace(/[{}\[\]"]/g,' ').replace(/\\n/g,'\n').replace(/\s+/g,' ').trim();
+          if(readable)p.sections.push({d:'Response',summary:'',subs:[{title:'',body:readable,summary:''}],subsections:[]});
+          return p;
+        }
+      }
     }
+
+    // Successfully parsed — build sections (same logic as original)
     p.inject_dim=j.inject_dim||null;
     (j.sections||[]).forEach(function(sec){
       var subsections=[];
@@ -465,13 +562,19 @@ function parseResp(raw){
     });
     p.pills=j.pills||[];
   }catch(e){
-    console.error('[parseResp] JSON.parse failed:',e.message);
-    console.error('[parseResp] raw (first 500):', raw.slice(0,500));
+    console.error('[parseResp] outer catch:',e.message);
+    console.error('[parseResp] raw (first 500):',raw.slice(0,500));
+    // Even in outer catch, try regex extraction before raw display
     var fb=raw.trim();
-    if(fb)p.sections.push({d:'Response',summary:'',subs:[{title:'',body:fb,summary:''}],subsections:[]});
+    if(fb){
+      var extracted2=regexExtractSections(fb);
+      if(extracted2.length){p.sections=extracted2;}
+      else{p.sections.push({d:'Response',summary:'',subs:[{title:'',body:fb,summary:''}],subsections:[]});}
+    }
   }
   return p;
 }
+// === FIX END ===
 
 // ─── RENDER RESPONSE ──────────────────────────────────────────────────────────
 // CHANGED: first section is rendered as an always-open "intro card" (no toggle),
